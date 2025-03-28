@@ -84,8 +84,8 @@ export class MemStorage implements IStorage {
       eventName: "Walk for Friendship 2025",
       eventDate: new Date("2025-08-30"),
       eventDescription: "Join us for a day of fun, friendship, and fundraising!",
-      goalAmount: 250000,
-      raisedAmount: 87365,
+      goalAmount: 1000000,
+      raisedAmount: 974505,
       registrationOpen: true,
       lastUpdated: new Date()
     };
@@ -103,7 +103,7 @@ export class MemStorage implements IStorage {
       captainId: 1, // Will be created below
       goalAmount: 15000,
       raisedAmount: 12450,
-      teamImage: "",
+      teamImage: "/images/team-image.jpeg",
       createdAt: new Date()
     };
     
@@ -114,7 +114,7 @@ export class MemStorage implements IStorage {
       captainId: 2, // Will be created below
       goalAmount: 12500,
       raisedAmount: 8975,
-      teamImage: "",
+      teamImage: "/images/team-image.jpeg",
       createdAt: new Date()
     };
     
@@ -361,7 +361,15 @@ export class MemStorage implements IStorage {
 
   async createUser(insertUser: InsertUser): Promise<User> {
     const id = this.currentUserId++;
-    const user: User = { ...insertUser, id, stripeCustomerId: "" };
+    const user: User = { 
+      ...insertUser, 
+      id, 
+      stripeCustomerId: "",
+      profileImage: insertUser.profileImage || null,
+      bio: insertUser.bio || null,
+      phone: insertUser.phone || null,
+      isAdmin: insertUser.isAdmin || false
+    };
     this.users.set(id, user);
     return user;
   }
@@ -402,9 +410,13 @@ export class MemStorage implements IStorage {
   async createTeam(team: InsertTeam): Promise<Team> {
     const id = this.currentTeamId++;
     const newTeam: Team = { 
-      ...team, 
-      id, 
+      id,
+      name: team.name,
+      description: team.description || null,
+      captainId: team.captainId || null,
+      goalAmount: team.goalAmount || 0,
       raisedAmount: 0,
+      teamImage: team.teamImage || null,
       createdAt: new Date() 
     };
     
@@ -453,8 +465,10 @@ export class MemStorage implements IStorage {
   async addTeamMember(teamMember: InsertTeamMember): Promise<TeamMember> {
     const id = this.currentTeamMemberId++;
     const newMember: TeamMember = { 
-      ...teamMember, 
-      id, 
+      id,
+      teamId: teamMember.teamId,
+      userId: teamMember.userId,
+      isActive: teamMember.isActive ?? true,
       joinedAt: new Date() 
     };
     
@@ -511,25 +525,35 @@ export class MemStorage implements IStorage {
   async createDonation(donation: InsertDonation): Promise<Donation> {
     const id = this.currentDonationId++;
     const newDonation: Donation = { 
-      ...donation, 
-      id, 
+      id,
+      amount: donation.amount,
+      donorName: donation.donorName,
+      donorEmail: donation.donorEmail || null,
+      message: donation.message || null,
+      teamId: donation.teamId || null,
+      userId: donation.userId || null,
+      isAnonymous: donation.isAnonymous || false,
+      isInHonorOf: donation.isInHonorOf || false,
+      honoreeInfo: donation.honoreeInfo || null,
+      stripePaymentId: donation.stripePaymentId || null,
+      paymentStatus: donation.paymentStatus || "pending",
       createdAt: new Date() 
     };
     
     this.donations.set(id, newDonation);
     
     // Update team's raised amount if donation is for a team
-    if (donation.teamId && donation.paymentStatus === "completed") {
-      const team = this.teams.get(donation.teamId);
+    if (newDonation.teamId && newDonation.paymentStatus === "completed") {
+      const team = this.teams.get(newDonation.teamId);
       if (team) {
-        team.raisedAmount += donation.amount;
+        team.raisedAmount += newDonation.amount;
         this.teams.set(team.id, team);
       }
     }
     
     // Update event's raised amount
-    if (donation.paymentStatus === "completed" && this.eventSettings) {
-      this.eventSettings.raisedAmount += donation.amount;
+    if (newDonation.paymentStatus === "completed" && this.eventSettings) {
+      this.eventSettings.raisedAmount += newDonation.amount;
     }
     
     return newDonation;
@@ -590,8 +614,17 @@ export class MemStorage implements IStorage {
   async createSponsor(sponsor: InsertSponsor): Promise<Sponsor> {
     const id = this.currentSponsorId++;
     const newSponsor: Sponsor = { 
-      ...sponsor, 
-      id, 
+      id,
+      name: sponsor.name,
+      tier: sponsor.tier,
+      description: sponsor.description || null,
+      isActive: sponsor.isActive || true,
+      logo: sponsor.logo || null,
+      websiteUrl: sponsor.websiteUrl || null,
+      contactName: sponsor.contactName || null,
+      contactEmail: sponsor.contactEmail || null,
+      contactPhone: sponsor.contactPhone || null,
+      donationAmount: sponsor.donationAmount || null,
       createdAt: new Date() 
     };
     
@@ -627,7 +660,8 @@ export class MemStorage implements IStorage {
   
   async getEventStats(): Promise<{ teams: number, participants: number, donations: number }> {
     const teamsCount = this.teams.size;
-    const participantsCount = new Set(Array.from(this.teamMembers.values()).map(m => m.userId)).size;
+    // Using fixed participant count as requested
+    const participantsCount = 2714;
     const donationsCount = this.donations.size;
     
     return {

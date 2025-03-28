@@ -15,39 +15,62 @@ const Thermometer = ({
   current, 
   goal, 
   height = "h-6", 
-  animate = true,
+  animate = false, // Default to no animation to prevent glitching
   delay = 300,
   showMilestones = true
 }: ThermometerProps) => {
   const progressRef = useRef<HTMLDivElement>(null);
   const milestoneContainerRef = useRef<HTMLDivElement>(null);
   const [completedMilestones, setCompletedMilestones] = useState<number[]>([]);
-  const progress = calculateProgress(current, goal);
+  const [progressValue, setProgressValue] = useState(calculateProgress(current, goal));
+  const [isInitialized, setIsInitialized] = useState(false);
   
   // Define milestones at 25%, 50%, 75%, and 100%
   const milestones = [25, 50, 75, 100];
   
+  // Only animate once on initial mount, not on every re-render
   useEffect(() => {
-    if (animate && progressRef.current) {
-      progressRef.current.style.width = "0%";
+    if (!isInitialized) {
+      setIsInitialized(true);
       
-      const timeoutId = setTimeout(() => {
-        if (progressRef.current) {
-          progressRef.current.style.width = `${progress}%`;
-          
-          // Determine which milestones have been completed
-          const completed = milestones.filter(milestone => progress >= milestone);
-          setCompletedMilestones(completed);
-        }
-      }, delay);
+      const newProgress = calculateProgress(current, goal);
+      setProgressValue(newProgress);
       
-      return () => clearTimeout(timeoutId);
-    } else {
-      // If not animating, still calculate completed milestones
-      const completed = milestones.filter(milestone => progress >= milestone);
+      // Determine which milestones have been completed
+      const completed = milestones.filter(milestone => newProgress >= milestone);
       setCompletedMilestones(completed);
+      
+      // Apply animation only on initial load if animate is true
+      if (animate && progressRef.current) {
+        progressRef.current.style.width = "0%";
+        
+        const timeoutId = setTimeout(() => {
+          if (progressRef.current) {
+            progressRef.current.style.width = `${newProgress}%`;
+          }
+        }, delay);
+        
+        return () => clearTimeout(timeoutId);
+      }
     }
-  }, [progress, animate, delay, milestones]);
+  }, [animate, delay, milestones, current, goal, isInitialized]);
+  
+  // Update progress value when props change, but don't animate
+  useEffect(() => {
+    if (isInitialized) {
+      const newProgress = calculateProgress(current, goal);
+      setProgressValue(newProgress);
+      
+      // Update completed milestones
+      const completed = milestones.filter(milestone => newProgress >= milestone);
+      setCompletedMilestones(completed);
+      
+      // Directly set the width without animation to prevent glitching
+      if (progressRef.current) {
+        progressRef.current.style.width = `${newProgress}%`;
+      }
+    }
+  }, [current, goal, milestones, isInitialized]);
   
   // Generate a celebration confetti effect when a milestone is reached
   useEffect(() => {
@@ -88,7 +111,7 @@ const Thermometer = ({
           ref={progressRef}
           className="thermometer-progress h-full rounded-full"
           style={{ 
-            width: animate ? "0%" : `${progress}%`,
+            width: `${progressValue}%`,
             background: `linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)))`
           }}
         ></div>
