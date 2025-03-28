@@ -2,6 +2,8 @@ import HeroSection from "@/components/home/hero-section";
 import EventInfoSection from "@/components/home/event-info-section";
 import ImpactSection from "@/components/home/impact-section";
 import TopTeamsSection from "@/components/home/top-teams-section";
+import TopFundraisersSection from "@/components/home/top-fundraisers-section";
+import FriendshipCirclesGallery from "@/components/home/friendship-circles-gallery";
 import SponsorshipSection from "@/components/home/sponsorship-section";
 import RegisterCTA from "@/components/home/register-cta";
 import { useEffect } from "react";
@@ -41,6 +43,8 @@ const Home = () => {
       <EventInfoSection />
       <ImpactSection />
       <TopTeamsSection />
+      <TopFundraisersSection />
+      <FriendshipCirclesGallery />
       <SponsorshipSection />
       <RegisterCTA />
     </div>
