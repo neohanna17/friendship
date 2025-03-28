@@ -1,4 +1,3 @@
-
 import { motion } from "framer-motion";
 import { BadgeCheck, Gift, Car, Coffee, Umbrella, Ticket, MapPin } from "lucide-react";
 
@@ -25,7 +24,7 @@ const tiers = [
       { icon: Umbrella, name: "Specialty FC Umbrella" },
       { icon: Coffee, name: "Power Walker Breakfast" },
       { icon: BadgeCheck, name: "Program Discounts" },
-      { icon: Parking, name: "VIP Parking" },
+      { icon: MapPin, name: "VIP Parking" },
       { icon: Gift, name: "FC Sweatshirt" }
     ]
   },
@@ -39,7 +38,7 @@ const tiers = [
       { icon: Umbrella, name: "Specialty FC Umbrella" },
       { icon: Coffee, name: "Power Walker Breakfast" },
       { icon: BadgeCheck, name: "Program Discounts" },
-      { icon: Parking, name: "VIP Parking" },
+      { icon: MapPin, name: "VIP Parking" },
       { icon: Gift, name: "FC Sweatshirt" },
       { icon: Ticket, name: "FC Sponsored Event" }
     ]
@@ -54,7 +53,7 @@ const tiers = [
       { icon: Umbrella, name: "Specialty FC Umbrella" },
       { icon: Coffee, name: "Power Walker Breakfast" },
       { icon: BadgeCheck, name: "Program Discounts" },
-      { icon: Parking, name: "VIP Parking" },
+      { icon: MapPin, name: "VIP Parking" },
       { icon: Gift, name: "FC Sweatshirt" },
       { icon: Ticket, name: "FC Sponsored Event" },
       { icon: Gift, name: "Seasonal Dakota Gift Basket" },
