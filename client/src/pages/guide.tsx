@@ -1,4 +1,3 @@
-
 import { Card } from "@/components/ui/card";
 
 export default function GuidePage() {
@@ -101,3 +100,5 @@ export default function GuidePage() {
     </div>
   );
 }
+
+export default GuidePage;
