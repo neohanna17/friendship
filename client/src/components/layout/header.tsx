@@ -43,8 +43,12 @@ const Header = () => {
             </Link>
             <div className="hidden md:flex space-x-6 ml-6">
               <NavItem href="/" label="Home" />
-              <NavItem href="/register" label="Register" />
+              <NavItem href="/event-info" label="Event Info" />
               <NavItem href="/teams" label="Teams" />
+              <NavItem href="/fundraisers" label="Fundraisers" />
+              <NavItem href="/fundraising-toolkit" label="Fundraising Toolkit" />
+              <NavItem href="/incentives" label="Incentives" />
+              <NavItem href="/volunteer" label="Volunteer" />
               <NavItem href="/sponsors" label="Sponsors" />
               <NavItem href="/about" label="About" />
             </div>
@@ -88,8 +92,12 @@ const Header = () => {
         <div className="md:hidden bg-primary w-full py-4 px-6 shadow-md animate-fade-in">
           <div className="flex flex-col space-y-4">
             <NavItem href="/" label="Home" mobile />
-            <NavItem href="/register" label="Register" mobile />
+            <NavItem href="/event-info" label="Event Info" mobile />
             <NavItem href="/teams" label="Teams" mobile />
+            <NavItem href="/fundraisers" label="Fundraisers" mobile />
+            <NavItem href="/fundraising-toolkit" label="Fundraising Toolkit" mobile />
+            <NavItem href="/incentives" label="Incentives" mobile />
+            <NavItem href="/volunteer" label="Volunteer" mobile />
             <NavItem href="/sponsors" label="Sponsors" mobile />
             <NavItem href="/about" label="About" mobile />
             <Separator className="bg-white/20" />
