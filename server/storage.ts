@@ -659,10 +659,10 @@ export class MemStorage implements IStorage {
   }
   
   async getEventStats(): Promise<{ teams: number, participants: number, donations: number }> {
-    const teamsCount = this.teams.size;
-    // Using fixed participant count as requested
+    // Using fixed counts as requested
+    const teamsCount = 1280; // Fixed teams count
     const participantsCount = 2714;
-    const donationsCount = this.donations.size;
+    const donationsCount = 78000; // Fixed donations count
     
     return {
       teams: teamsCount,
