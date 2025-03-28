@@ -11,6 +11,7 @@ import Incentives from "@/pages/incentives";
 import NotFound from "@/pages/not-found";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import AboutPage from "@/pages/about"; // Import the AboutPage component
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ export default function App() {
             <Route path="/fundraiser/:id" component={FundraiserProfile} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/incentives" component={Incentives} />
+            <Route path="/about" component={AboutPage} /> {/* Added About route */}
             <Route component={NotFound} />
           </Switch>
         </main>
