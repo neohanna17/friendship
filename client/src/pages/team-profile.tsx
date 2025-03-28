@@ -83,6 +83,15 @@ const TeamProfile = () => {
       return;
     }
     
+    if (!data?.team) {
+      toast({
+        title: "Error",
+        description: "Team information is not available",
+        variant: "destructive"
+      });
+      return;
+    }
+    
     setIsJoiningTeam(true);
     
     try {
@@ -90,7 +99,7 @@ const TeamProfile = () => {
       
       toast({
         title: "Team Joined",
-        description: `You've successfully joined ${data?.team.name}!`,
+        description: `You've successfully joined ${data.team.name}!`,
       });
       
       // Refresh team data
@@ -107,12 +116,12 @@ const TeamProfile = () => {
   };
   
   // Check if current user is already a member of this team
-  const isUserMember = data?.members.some(member => 
-    member.userId === authData?.user?.id
-  );
+  const isUserMember = authData?.user && data?.members ? 
+    data.members.some(member => member.userId === authData.user?.id) : false;
   
   // Check if current user is the captain
-  const isUserCaptain = data?.team.captainId === authData?.user?.id;
+  const isUserCaptain = authData?.user && data?.team ? 
+    data.team.captainId === authData.user?.id : false;
   
   if (isLoading) {
     return (
@@ -151,8 +160,33 @@ const TeamProfile = () => {
     );
   }
   
-  const { team, members, donations } = data;
-  const captain = members.find(member => member.userId === team.captainId)?.user;
+  // Make sure we have data before destructuring
+  const { team, members = [], donations = [] } = data || { team: undefined, members: [], donations: [] };
+  
+  // If no team data was found, show 404
+  if (!team) {
+    return (
+      <div className="min-h-screen py-16 bg-gray-50">
+        <div className="container mx-auto px-4 text-center">
+          <Card className="max-w-md mx-auto">
+            <CardContent className="pt-6">
+              <h1 className="text-2xl font-bold text-gray-900 mb-4">Team Not Found</h1>
+              <p className="text-gray-600 mb-6">
+                The team you're looking for doesn't exist or has been removed.
+              </p>
+              <Link href="/teams">
+                <Button className="rounded-full">Browse All Teams</Button>
+              </Link>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
+  
+  // Safely check for captain
+  const captain = members && members.length > 0 ? 
+    members.find(member => member.userId === team.captainId)?.user : undefined;
   
   // Format dates for display
   const formatDate = (dateString: string) => {
@@ -170,7 +204,7 @@ const TeamProfile = () => {
           {/* Team Hero Section */}
           <Card className="mb-8 overflow-hidden border-none shadow-md">
             <div className="relative h-40 bg-gradient-to-r from-primary to-primary/80">
-              {team.teamImage && (
+              {team && team.teamImage && (
                 <img
                   src={team.teamImage}
                   alt={team.name}
@@ -179,7 +213,7 @@ const TeamProfile = () => {
               )}
               <div className="absolute inset-0 flex items-center justify-center">
                 <h1 className="font-heading font-extrabold text-3xl md:text-4xl text-white">
-                  {team.name}
+                  {team ? team.name : "Team"}
                 </h1>
               </div>
             </div>
@@ -188,7 +222,7 @@ const TeamProfile = () => {
                 <div className="w-full md:w-2/3">
                   <div className="flex items-center gap-2 mb-3">
                     <CalendarDays className="h-5 w-5 text-gray-500" />
-                    <span className="text-gray-600 text-sm">Created: {formatDate(team.createdAt)}</span>
+                    <span className="text-gray-600 text-sm">Walk for Friendship 2025</span>
                   </div>
                   
                   {captain && (
@@ -270,31 +304,36 @@ const TeamProfile = () => {
             
             <TabsContent value="members" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {members.map((member) => (
-                  <Card key={member.id} className="overflow-hidden">
-                    <CardContent className="p-4">
-                      <div className="flex items-center gap-4">
-                        <Avatar className="h-12 w-12">
-                          <AvatarImage src={member.user.profileImage} alt={`${member.user.firstName} ${member.user.lastName}`} />
-                          <AvatarFallback>{member.user.firstName.charAt(0)}{member.user.lastName.charAt(0)}</AvatarFallback>
-                        </Avatar>
-                        <div>
-                          <h3 className="font-medium text-gray-900">
-                            {member.user.firstName} {member.user.lastName}
-                            {member.userId === team.captainId && (
-                              <span className="ml-2 text-xs bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
-                                Captain
-                              </span>
-                            )}
-                          </h3>
-                          <p className="text-sm text-gray-600">
-                            Joined {formatDate(member.joinedAt)}
-                          </p>
+                {members.map((member) => {
+                  // Make sure the member has a user property before rendering
+                  if (!member.user) return null;
+                  
+                  return (
+                    <Card key={member.id} className="overflow-hidden">
+                      <CardContent className="p-4">
+                        <div className="flex items-center gap-4">
+                          <Avatar className="h-12 w-12">
+                            <AvatarImage src={member.user.profileImage} alt={`${member.user.firstName} ${member.user.lastName}`} />
+                            <AvatarFallback>{member.user.firstName.charAt(0)}{member.user.lastName.charAt(0)}</AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <h3 className="font-medium text-gray-900">
+                              {member.user.firstName} {member.user.lastName}
+                              {member.userId === team.captainId && (
+                                <span className="ml-2 text-xs bg-secondary/10 text-secondary px-2 py-0.5 rounded-full">
+                                  Captain
+                                </span>
+                              )}
+                            </h3>
+                            <p className="text-sm text-gray-600">
+                              Joined {formatDate(member.joinedAt)}
+                            </p>
+                          </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                ))}
+                      </CardContent>
+                    </Card>
+                  );
+                })}
               </div>
               
               {members.length === 0 && (
