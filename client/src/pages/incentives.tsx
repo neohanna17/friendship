@@ -1,6 +1,6 @@
 
 import { motion } from "framer-motion";
-import { BadgeCheck, Gift, Car, Coffee, Umbrella, Ticket, Parking } from "lucide-react";
+import { BadgeCheck, Gift, Car, Coffee, Umbrella, Ticket, MapPin } from "lucide-react";
 
 const tiers = [
   {
