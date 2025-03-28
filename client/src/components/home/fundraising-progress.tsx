@@ -55,7 +55,7 @@ const FundraisingProgress = () => {
   
   return (
     <div className="w-full">
-      <h3 className="text-primary font-heading font-bold text-2xl mb-2">Together we've raised:</h3>
+      <h3 className="text-primary font-heading font-bold text-2xl mb-2">Together we've raised in 2024:</h3>
       <div className="flex items-end">
         <span
           ref={raisedAmountRef}
@@ -74,6 +74,9 @@ const FundraisingProgress = () => {
           style={{ width: `${progress}%` }}
         ></div>
       </div>
+      <p className="text-muted-foreground mt-2 text-sm italic">
+        Transforming lives and building a more inclusive community, together
+      </p>
     </div>
   );
 };
