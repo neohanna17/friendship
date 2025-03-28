@@ -94,6 +94,13 @@ const HeroSection = () => {
       <div className="container mx-auto px-4 py-10 md:py-20">
         <div className="flex flex-col md:flex-row md:items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
+            <div className="mb-2">
+              <img 
+                src="/images/brighter-together.png" 
+                alt="Brighter Together" 
+                className="w-64 h-auto mb-4"
+              />
+            </div>
             <h1 className="font-heading font-extrabold text-4xl md:text-5xl lg:text-6xl mb-4">
               Walk for Friendship <span className="text-secondary">2025</span>
             </h1>
