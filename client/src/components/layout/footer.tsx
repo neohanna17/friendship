@@ -12,7 +12,7 @@ interface NewsletterForm {
 const Footer = () => {
   const { register, handleSubmit, reset, formState: { errors } } = useForm<NewsletterForm>();
   const { toast } = useToast();
-  
+
   const onSubmit = (data: NewsletterForm) => {
     // In a real implementation, this would send the email to a newsletter API
     toast({
@@ -21,7 +21,7 @@ const Footer = () => {
     });
     reset();
   };
-  
+
   return (
     <footer className="bg-[#333] text-white pt-12 pb-6">
       <div className="container mx-auto px-4">
@@ -46,7 +46,7 @@ const Footer = () => {
               </a>
             </div>
           </div>
-          
+
           <div>
             <h3 className="font-heading font-bold text-xl mb-4">Quick Links</h3>
             <ul className="space-y-2">
@@ -55,9 +55,10 @@ const Footer = () => {
               <li><Link href="/donate" className="text-gray-300 hover:text-secondary transition">Donate</Link></li>
               <li><Link href="/teams" className="text-gray-300 hover:text-secondary transition">Teams</Link></li>
               <li><Link href="/sponsors" className="text-gray-300 hover:text-secondary transition">Sponsors</Link></li>
+              <li><Link href="/about" className="text-gray-300 hover:text-secondary transition">About</Link></li> {/* Added About link */}
             </ul>
           </div>
-          
+
           <div>
             <h3 className="font-heading font-bold text-xl mb-4">Contact</h3>
             <ul className="space-y-2">
@@ -75,7 +76,7 @@ const Footer = () => {
               </li>
             </ul>
           </div>
-          
+
           <div>
             <h3 className="font-heading font-bold text-xl mb-4">Newsletter</h3>
             <p className="text-gray-300 mb-4">Stay updated with our latest news and events.</p>
@@ -101,7 +102,7 @@ const Footer = () => {
             </form>
           </div>
         </div>
-        
+
         <div className="border-t border-gray-700 pt-6 mt-6 text-center text-gray-400 text-sm">
           <p>&copy; {new Date().getFullYear()} Friendship Circle of Michigan. All rights reserved.</p>
           <div className="mt-2 space-x-4">
