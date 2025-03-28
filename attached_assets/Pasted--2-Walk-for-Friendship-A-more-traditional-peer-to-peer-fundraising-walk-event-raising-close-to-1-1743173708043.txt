@@ -1,0 +1,55 @@
+ 2. Walk for Friendship: A more traditional peer-to-peer fundraising walk event, raising close to $1 million annually.
+
+Core Functionality
+Team Registration: Standard team creation and management
+Team Captain/Member Structure: Hierarchy for team management
+Fundraising Pages: For teams and individuals
+Sponsorship Options: Various sponsorship levels and recognition
+Reporting: Comprehensive reporting on teams, donations, etc.
+Data & Integration Requirements
+Salesforce Integration: Critical requirement for all donation data
+Data Points Needed:
+Donor information (contact details)
+Transaction details (amount, date, payment method)
+Campaign association
+Team/individual attribution
+Custom fields for reporting
+Payment Processing:
+Currently using multiple processors (Stripe, Authorize.net, PayPal, Venmo)
+Preference for Stripe due to better API
+Need to track different processing fees by payment method
+Administrative Requirements
+Back-End Access: Staff needs easy access to:
+Lists of teams
+Lists of fundraisers
+Lists of donors
+Donor details by fundraiser
+Campaign statistics and reports
+Campaign Replication: Ability to easily duplicate campaigns year-to-year
+Self-Management: Platform should be manageable by non-technical staff
+Additional Requirements
+Tributes: Ability to make tribute donations
+Recurring Donations: Support for monthly/sustaining donors
+Upselling: Prompts to encourage recurring donations or increase one-time amounts
+Current Pain Points
+Lack of Innovation: Rallybound hasn't significantly updated features in 5+ years
+Integration Issues: Occasional sync failures with Salesforce
+Support Challenges: Slow response times and difficulty resolving issues
+Limited Customization: Required custom development for new payment methods
+High Costs: 3% platform fee considered excessive
+Timeline Considerations
+Walk for Friendship site needed by May 2025
+Fundraising begins July 1, 2025
+Walk event August 2025
+Great Bike Giveaway planning would need to begin immediately for November 2025 launch
+Budget Implications
+Current spending: approximately $18,000/year on Great Bike Giveaway platform fees
+Additional fees for Walk for Friendship and other donation forms
+Development costs would need to be weighed against long-term savings
+Decision Factors
+Ability to replicate unique voting mechanism
+Ease of Salesforce integration
+Total cost (platform fees vs. development)
+Timeline for implementation
+Self-service capability for staff
+Innovation potential and roadmap
