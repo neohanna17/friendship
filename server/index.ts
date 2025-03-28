@@ -38,17 +38,15 @@ app.use((req, res, next) => {
 });
 
 (async () => {
-  const router = await registerRoutes(app); // Assuming registerRoutes returns a router instance
+  const server = await registerRoutes(app);
 
-  app.use(express.static("client/dist"));
-
-  // API routes first
-  app.use("/api", router);
-
-  // Then fallback everything else to index.html for client-side routing
-  app.get("*", (_req, res) => {
-    res.sendFile(path.resolve(__dirname, "../client/dist/index.html"));
-  });
+  // setting up all the other routes so the catch-all route
+  // doesn't interfere with the other routes
+  if (app.get("env") === "development") {
+    await setupVite(app, server);
+  } else {
+    serveStatic(app);
+  }
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
     const status = err.status || err.statusCode || 500;
