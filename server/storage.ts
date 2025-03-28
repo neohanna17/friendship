@@ -125,7 +125,7 @@ export class MemStorage implements IStorage {
       captainId: 3, // Will be created below
       goalAmount: 10000,
       raisedAmount: 7340,
-      teamImage: "",
+      teamImage: "/images/team-3.jpg",
       createdAt: new Date()
     };
     
@@ -136,9 +136,75 @@ export class MemStorage implements IStorage {
       captainId: 4, // Will be created below
       goalAmount: 10000,
       raisedAmount: 6210,
-      teamImage: "",
+      teamImage: "/images/team-4.jpg",
       createdAt: new Date()
     };
+    
+    // Add more example users
+    const user5: User = {
+      id: this.currentUserId++,
+      username: "rachel",
+      password: "hashedpassword",
+      email: "rachel@example.com",
+      firstName: "Rachel",
+      lastName: "Chen",
+      profileImage: "/images/profile-5.jpg",
+      bio: "Making a difference one step at a time",
+      phone: "555-789-0123",
+      isAdmin: false,
+      stripeCustomerId: ""
+    };
+    
+    const user6: User = {
+      id: this.currentUserId++,
+      username: "marcus",
+      password: "hashedpassword",
+      email: "marcus@example.com",
+      firstName: "Marcus",
+      lastName: "Williams",
+      profileImage: "/images/profile-6.jpg",
+      bio: "Passionate about community service",
+      phone: "555-234-5678",
+      isAdmin: false,
+      stripeCustomerId: ""
+    };
+    
+    // Add these users to storage
+    this.users.set(user5.id, user5);
+    this.users.set(user6.id, user6);
+    
+    // Add more example donations
+    this.donations.set(this.currentDonationId++, {
+      id: this.currentDonationId,
+      amount: 500,
+      donorName: "Rachel Chen",
+      donorEmail: "rachel@example.com",
+      message: "So happy to support this amazing cause!",
+      teamId: team3.id,
+      userId: user5.id,
+      isAnonymous: false,
+      isInHonorOf: false,
+      honoreeInfo: "",
+      stripePaymentId: "pi_45678",
+      paymentStatus: "completed",
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000) // 2 days ago
+    });
+    
+    this.donations.set(this.currentDonationId++, {
+      id: this.currentDonationId,
+      amount: 1000,
+      donorName: "Marcus Williams",
+      donorEmail: "marcus@example.com",
+      message: "For all the wonderful work you do!",
+      teamId: team4.id,
+      userId: user6.id,
+      isAnonymous: false,
+      isInHonorOf: true,
+      honoreeInfo: "In honor of my sister",
+      stripePaymentId: "pi_56789",
+      paymentStatus: "completed",
+      createdAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000) // 1 day ago
+    });
     
     // Add the teams to the map
     this.teams.set(team1.id, team1);
