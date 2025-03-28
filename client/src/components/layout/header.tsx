@@ -43,7 +43,6 @@ const Header = () => {
             </Link>
             <div className="hidden md:flex space-x-6 ml-6">
               <NavItem href="/" label="Home" />
-              <NavItem href="/event-info" label="Event Info" />
               <NavItem href="/teams" label="Teams" />
               <NavItem href="/fundraisers" label="Fundraisers" />
               <NavItem href="/fundraising-toolkit" label="Fundraising Toolkit" />
