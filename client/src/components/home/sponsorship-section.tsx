@@ -17,13 +17,13 @@ const SponsorshipSection = () => {
   const { data, isLoading } = useQuery<{ sponsors: Sponsor[] }>({
     queryKey: ['/api/sponsors'],
   });
-  
+
   const [selectedTier, setSelectedTier] = useState<string | null>(null);
-  
+
   const handleSelectTier = (tier: string) => {
     setSelectedTier(tier === selectedTier ? null : tier);
   };
-  
+
   return (
     <section className="py-16 bg-primary/5">
       <div className="container mx-auto px-4">
@@ -33,7 +33,7 @@ const SponsorshipSection = () => {
             Thank you to these amazing organizations for supporting our mission.
           </p>
         </div>
-        
+
         {isLoading ? (
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 items-center mb-12">
             {[...Array(5)].map((_, i) => (
@@ -43,31 +43,58 @@ const SponsorshipSection = () => {
             ))}
           </div>
         ) : (
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 items-center mb-12">
-            {data?.sponsors.map((sponsor) => (
-              <a
-                key={sponsor.id}
-                href={sponsor.websiteUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition flex items-center justify-center h-24"
-              >
-                {sponsor.logo ? (
-                  <img
-                    src={sponsor.logo}
-                    alt={sponsor.name}
-                    className="max-h-16 max-w-full"
-                  />
-                ) : (
-                  <div className="text-center font-medium text-gray-700">
-                    {sponsor.name}
-                  </div>
-                )}
-              </a>
-            ))}
-          </div>
+          <>
+            <div className="mb-12 overflow-hidden">
+              <div className="sponsor-scroller">
+                {[...data?.sponsors, ...data?.sponsors].map((sponsor, index) => (
+                  <a
+                    key={sponsor.id}
+                    href={sponsor.websiteUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="sponsor-item p-2"
+                  >
+                    {sponsor.logo ? (
+                      <img
+                        src={sponsor.logo}
+                        alt={sponsor.name}
+                        className="max-h-8 max-w-full"
+                      />
+                    ) : (
+                      <div className="text-center font-medium text-gray-700">
+                        {sponsor.name}
+                      </div>
+                    )}
+                  </a>
+                ))}
+              </div>
+            </div>
+            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-6 items-center mb-12"> {/*Existing static sponsor display*/}
+              {data?.sponsors.map((sponsor) => (
+                <a
+                  key={sponsor.id}
+                  href={sponsor.websiteUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-4 bg-white rounded-lg shadow-sm hover:shadow-md transition flex items-center justify-center h-24"
+                >
+                  {sponsor.logo ? (
+                    <img
+                      src={sponsor.logo}
+                      alt={sponsor.name}
+                      className="max-h-16 max-w-full"
+                    />
+                  ) : (
+                    <div className="text-center font-medium text-gray-700">
+                      {sponsor.name}
+                    </div>
+                  )}
+                </a>
+              ))}
+            </div>
+          </>
         )}
-        
+
         <div>
           <Card className="bg-white rounded-xl shadow-md overflow-hidden border-none">
             <CardContent className="p-6 md:p-8">
@@ -75,13 +102,13 @@ const SponsorshipSection = () => {
               <p className="text-gray-600 mb-6">
                 Support our mission while gaining visibility for your organization. Multiple sponsorship levels available.
               </p>
-              
+
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
                 <div
                   className={cn(
                     "border rounded-lg p-4 hover:bg-primary/5 transition cursor-pointer",
-                    selectedTier === "gold" 
-                      ? "border-primary bg-primary/5" 
+                    selectedTier === "gold"
+                      ? "border-primary bg-primary/5"
                       : "border-primary/30"
                   )}
                   onClick={() => handleSelectTier("gold")}
@@ -95,8 +122,8 @@ const SponsorshipSection = () => {
                 <div
                   className={cn(
                     "border rounded-lg p-4 hover:bg-secondary/5 transition cursor-pointer",
-                    selectedTier === "silver" 
-                      ? "border-secondary bg-secondary/5" 
+                    selectedTier === "silver"
+                      ? "border-secondary bg-secondary/5"
                       : "border-secondary/30"
                   )}
                   onClick={() => handleSelectTier("silver")}
@@ -110,8 +137,8 @@ const SponsorshipSection = () => {
                 <div
                   className={cn(
                     "border rounded-lg p-4 hover:bg-accent/5 transition cursor-pointer",
-                    selectedTier === "bronze" 
-                      ? "border-accent bg-accent/5" 
+                    selectedTier === "bronze"
+                      ? "border-accent bg-accent/5"
                       : "border-accent/30"
                   )}
                   onClick={() => handleSelectTier("bronze")}
@@ -123,7 +150,7 @@ const SponsorshipSection = () => {
                   <p className="font-bold text-gray-900">$1,000</p>
                 </div>
               </div>
-              
+
               <div className="text-center">
                 <Button className="bg-primary text-white rounded-full hover:bg-primary/90">
                   Download Sponsor Packet
