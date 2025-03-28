@@ -8,7 +8,7 @@
     --foreground: 280 47.4% 11.2%;
     
     --primary: 280 80% 50%;
-    --primary-foreground: 280 40% 98%;
+    --primary-foreground: 0 0% 100%;
     
     --secondary: 325 80% 55%;
     --secondary-foreground: 0 0% 100%;
@@ -29,7 +29,7 @@
     --input: 280 31.8% 91.4%;
     --ring: 280 80% 50%;
     
-    --radius: 1rem;
+    --radius: 0.5rem;
   }
   
   * {
