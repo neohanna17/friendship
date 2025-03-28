@@ -41,11 +41,11 @@ const Header = () => {
                 <img src="/images/logo-white.png" alt="Walk for Friendship Logo" className="h-10" />
               </div>
             </Link>
-            <div className="hidden md:flex space-x-6 ml-6">
+            <div className="hidden md:flex space-x-4 ml-4">
               <NavItem href="/" label="Home" />
               <NavItem href="/teams" label="Teams" />
               <NavItem href="/fundraisers" label="Fundraisers" />
-              <NavItem href="/fundraising-toolkit" label="Fundraising Toolkit" />
+              <NavItem href="/fundraising-toolkit" label="Guide" />
               <NavItem href="/incentives" label="Incentives" />
               <NavItem href="/volunteer" label="Volunteer" />
               <NavItem href="/sponsors" label="Sponsors" />
