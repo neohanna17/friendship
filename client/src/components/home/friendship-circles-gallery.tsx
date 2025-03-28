@@ -22,6 +22,9 @@ const FriendshipCirclesGallery = () => {
   }, []);
 
   // Gallery images with their details
+  // Added additional image to make it 10 total for a clean 5x2 grid
+  const eventImage2 = "/images/friendship-circles/event2.jpg";
+  
   const galleryImages = [
     {
       image: teamImage1,
@@ -68,6 +71,11 @@ const FriendshipCirclesGallery = () => {
       location: "Family Participants",
       description: "Families coming together for friendship",
     },
+    {
+      image: eventImage2,
+      location: "Community Spirit",
+      description: "Sharing moments of joy and connection",
+    },
   ];
 
   return (
@@ -83,7 +91,7 @@ const FriendshipCirclesGallery = () => {
           </p>
         </div>
         
-        <div className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8 ${loaded ? 'animate-fade-in' : 'opacity-0'}`}>
+        <div className={`grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 pb-8 ${loaded ? 'animate-fade-in' : 'opacity-0'}`}>
           {galleryImages.map((item, index) => (
             <div 
               key={index} 
@@ -107,7 +115,7 @@ const FriendshipCirclesGallery = () => {
         <div className="text-center mt-10">
           <Button 
             onClick={() => setLocation("/about")}
-            className="bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600"
+            className="bg-purple-600 hover:bg-purple-700"
           >
             Learn More About Friendship Circle
           </Button>
