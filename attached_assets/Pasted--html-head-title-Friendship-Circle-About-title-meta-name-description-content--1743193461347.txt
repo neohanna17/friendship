@@ -1,0 +1,504 @@
+
+
+<html>
+
+<head>
+    <title>Friendship Circle / About</title>
+    <meta name="description" content="">
+    <meta name="Keywords" content="" />
+        <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no,maximum-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Karla:wght@400;700&amp;family=Krub:wght@400;500;700&amp;family=Sen:wght@400;700&amp;display=swap" rel="stylesheet">
+    <link href="/theme/stylesheets/css/main.css" rel="stylesheet">
+    <script>
+        (function(w, d, s, n, a) {
+            if (!w[n]) {
+                var l = 'call,catch,on,once,set,then,track'
+
+                    .split(','),
+                    i, o = function(n) {
+                        return 'function' == typeof n ? o.l.push([arguments]) && o
+
+                            :
+                            function() {
+                                return o.l.push([n, arguments]) && o
+                            }
+                    },
+                    t = d.getElementsByTagName(s)[0],
+
+                    j = d.createElement(s);
+                j.async = !0;
+                j.src = 'https://cdn.fundraiseup.com/widget/' + a;
+
+                t.parentNode.insertBefore(j, t);
+                o.s = Date.now();
+                o.v = 4;
+                o.h = w.location.href;
+                o.l = [];
+
+                for (i = 0; i < 7; i++) o[l[i]] = o(l[i]);
+                w[n] = o
+            }
+
+        })(window, document, 'script', 'FundraiseUp', 'ASQPNLJQ');
+    </script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-VV0YHV8WQ5"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-VV0YHV8WQ5');
+    </script>
+
+    </head>
+
+<body >
+    <header class="header">
+        <div class="header-top">
+            <div class="container widest">
+                <ul class="top-contacts">
+                                            <li><a href="tel:2487887878"><span>Contact Us </span><span>:</span><span>(248) 788-7878</span></a></li>
+                                            <li><a href="tel:2487887400"><span>Soul Cafe</span><span>:</span><span>(248) 788-7400</span></a></li>
+                                            <li><a href="tel:2487884800"><span>Dakota Bakery</span><span>:</span><span>(248) 788-4800</span></a></li>
+                                    </ul>
+                <div class="top-actions">
+                    <form class="search-form" action="/search">
+                        <input type="text" name="header-search" placeholder="Type your search here">
+                        <button type="submit"><i class="fa fa-search"></i></button>
+                    </form>
+                </div>
+            </div>
+            <div class="top-buttons">
+                <a href="http://soulstudiogallery.com">GALLERY SHOP</a>
+
+                                    <a href="/donate"><i class="far fa-heart"></i><span>DONATE NOW</span></a>
+                                </div>
+        </div>
+        <div class="header-middle">
+            <div class="container fw">
+                <div class="header-middle--left">
+                    <a href="/">
+                        <img src="/theme/images/logo.svg" alt="Friendship Circle Logo">
+                    </a>
+                    <div class="top-promo">Pure Friendship for Individuals with Special Needs</div>
+                </div>
+                <button class="header-hamburger">
+                    <svg width="100" height="100" viewBox="0 0 100 100">
+                        <path class="line line1" d="M 20,29.000046 H 80.000231 C 80.000231,29.000046 94.498839,28.817352 94.532987,66.711331 94.543142,77.980673 90.966081,81.670246 85.259173,81.668997 79.552261,81.667751 75.000211,74.999942 75.000211,74.999942 L 25.000021,25.000058"></path>
+                        <path class="line line2" d="M 20,50 H 80"></path>
+                        <path class="line line3" d="M 20,70.999954 H 80.000231 C 80.000231,70.999954 94.498839,71.182648 94.532987,33.288669 94.543142,22.019327 90.966081,18.329754 85.259173,18.331003 79.552261,18.332249 75.000211,25.000058 75.000211,25.000058 L 25.000021,74.999942"></path>
+                    </svg>
+                </button>
+                <div class="nav-container">
+                    <nav class="middle-nav">
+                                                    <a class="nav-item " href="/locations/soul_cafe"><span>SOUL CAFE</span></a>
+                                                    <a class="nav-item " href="/dakotabread"><span>DAKOTA BAKERY</span></a>
+                                                    <a class="nav-item " href="/locations/soul_gallery"><span>SOUL GALLERY</span></a>
+                                                    <a class="nav-item " href="http://www.epickoshercatering.com"><span>CATERING</span></a>
+                                                    <a class="nav-item " href="/umatter"><span>UMATTER</span></a>
+                                                    <a class="nav-item " href="/locations/friendship-house"><span>FRIENDSHIP HOUSE</span></a>
+                                            </nav>
+                </div>
+            </div>
+        </div>
+        <div class="header-bottom">
+            <div class="container widest">
+                <div class="nav-container">
+                    <nav class="nav">
+                                                    <a href="/" class="nav-item " title="Home"><span>Home</span></a>
+                                                    <a href="/about" class="nav-item  nav-item-active" title="About"><span>About</span></a>
+                                                    <a href="/programs" class="nav-item " title="Programs"><span>Programs</span></a>
+                                                    <a href="/volunteers" class="nav-item " title="Volunteers"><span>Volunteers</span></a>
+                                                    <a href="/farber" class="nav-item " title="Farber Center"><span>Farber Center</span></a>
+                                                    <a href="/educators" class="nav-item " title="Educators"><span>Educators</span></a>
+                                                    <a href="/resources" class="nav-item " title="Resources"><span>Resources</span></a>
+                                                    <a href="/contact" class="nav-item " title="Contact"><span>Contact</span></a>
+                                                <a class="nav-item" href="https://fcmichigan.my.site.com/family/s/login/?ec=302&startURL=%2Ffamily%2Fs%2F" target="_blank"><span>LOGIN</span></a>
+                    </nav>
+                    <span class="nav-toggle"></span>
+                </div>
+            </div>
+    </header>    <!-- content -->
+<div class="main-wrapper">
+        
+<section class="slider p-0">
+    <div class="preloaderOverlay">
+        <div class="preloader"></div>
+    </div>
+    <div class="top-slider init slider-instance slider-items content-based" id="top-slider">
+                    <div class="slider-item " style="background-image: url(/_default_upload_bucket/image-thumb__858__top-slider/about.webp);" data-width="1894"
+                 data-height="524">
+                <div class="description">
+                    <div class="inner">
+                        <div class="slider-title-block">
+                            <div class="slider-titles-only">
+                                <div class="title">About</div>
+                            </div>
+                            <p>Friendship Circle</p>                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+                </div>
+</section>
+<section class="about-welcome">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <h2><span>Welcome</span><span>to Friendship Circle</span></h2>
+                <p class="font-size-l text-base-alt bold">
+                    <p><strong>Friendship Circle of Michigan is a non-profit organization affiliated with Lubavitch of Michigan. Our goal is to provide every individual with special needs the support friendship and inclusion that they deserve.</strong></p>
+                <a href="/about/timeline">
+                    <img alt="" title="" src="/_default_upload_bucket/see-timeline.png" />                </a>
+            </div>
+            <div class="col ww">
+                <h4>What we do</h4>
+
+<p>Friendship Circle provides assistance and support to 3,000 individuals with special needs and their families by providing recreational, social, educational and vocational programming. In addition to helping those in need, the Friendship Circle enriches its vast network of volunteers by enabling them to reap the rewards of selfless giving.</p>
+
+<p>Friendship Circle also provides support to individuals and families struggling with isolation, addiction and other family-related crises.</p>
+
+<h4>Our Mission</h4>
+
+<p>Friendship Circle creates friendship in the lives of individuals with special needs and those facing isolation while providing an opportunity to become a contributing member of the community. Through our programming, Friendship Circle aims to promote an inclusive community that values all individuals regardless of the challenges they face.</p>
+
+<h4>Our Values</h4>
+
+<p>Friendship Circle is founded upon the idea that within each person is a soul; and that soul is equal and worthy of boundless love. With this inspiration, the lives of the families we serve are enhanced while the volunteers reap the rewards of selfless giving.</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="about-iconblock alt-bg">
+    <h2 class="text-center mb-1">We are...We are…</h2>
+    <div class="container wider">
+        <div class="row">
+                            <div class="col"><img src="/_default_upload_bucket/aib-1.svg">
+                    <div class="inner">
+                        <h5>Open To All</h5>
+                        <p>We are open to families and individuals of all ages &amp; religious backgrounds</p>
+                    </div>
+                </div>
+                                <div class="col"><img src="/_default_upload_bucket/aib-2.svg">
+                    <div class="inner">
+                        <h5>Volunteer Based</h5>
+                        <p>Our vast community of volunteers help make all of our programs and friendships possible</p>
+                    </div>
+                </div>
+                                <div class="col"><img src="/_default_upload_bucket/aib-3.svg">
+                    <div class="inner">
+                        <h5>Non-Profit</h5>
+                        <p>Thanks to our donors we are able to support thousands of families and individuals</p>
+                    </div>
+                </div>
+                        </div>
+    </div>
+</section>
+<section class="about-staff-board">
+    <div class="container">
+        <div class="row">
+            <div class="col basis-45">
+                <div class="about-staff-board--left">
+                    <img alt="" title="" src="/_default_upload_bucket/about-staff-board.jpg" />                    <div class="info">
+                        <h6>Dedication</h6>
+                        <p>The Rebbe’s unconditional love to people knew no bounds. To the Rebbe they all belonged. He made them feel at home. The Rebbe’s warm smile would heal every aching heart.The Rebbe was always there, offering counsel and blessings, comfort and hope, and often, material help as well. It is his belief that none of us is complete unless all of us are included. That is the very core and essence of what the Rebbe teaches. It is this single concept that motivates the Friendship Circle. To learn more about the Rebbe visit www.therebbe.org</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col">
+                <div class="about-staff-board--right">
+                    <div class="block">
+                        <h3>Our Staff</h3>
+                        <p>Our staff is devoted to Friendship Circle’s mission of love, friendship and inclusion. With over 30 dedicated staff members, Friendship Circle has been able to grow and thrive.</p>
+                        <a href="/about/our_staff" class="btn btn-violet" type="internal">MEET THE STAFF</a>                    </div>
+                    <div class="block">
+                        <h3>Our Board</h3>
+                        <p>Friendship Circle’s board is a highly dedicated team of professionals with varying backgrounds and experience. Consisting of 24 diligant members, the board strives to uphold our values and our mission to forge strong bonds of friendship and further grow our community.</p>
+                        <a href="/about/our_board" class="btn btn-violet" type="internal">SEE MEMBERS</a>                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="pb-0">
+    <div class="container">
+        <div class="text-center ww mb-2">
+            <h2><span>Facilities</span><span>of Friendship Circle</span></h2>
+            <p>Friendship Circle provides assistance and support to 3,000 individuals with special needs and their families by providing recreational,social, educational and vocational programming.</p>
+        </div>
+    </div>
+    <ul class="text-img switching alt">
+                    <li>
+                <div class="container fw">
+                    <div class="row">
+                        <div class="col">
+                            <h6></h6>
+                            <h2>Ferber Kaufman LifeTown</h2>
+                            <div class="mb-1">Our Facility has been home to hundreds of programs since its construction in 2005. With a number of activity rooms in the Bauer Activity Wing, | as well as the simulated-living Weinberg Village downstairs, Ferber Kaufman Lifetown is the perfect place to house all our programs.</div>
+                            <h4>The Home of:</h4>
+                            <ul class="cta mb-1 yellow-dots">
+                                                                    <li><a href="">Weinberg Village, and our program Lessons for Life</a></li>
+                                                                        <li><a href="#">The Bauer Activity Wing</a></li>
+                                                                        <li><a href="https://friendshipcircle.org/locations/friendship-house">Daniel B. Sobel Friendship House</a></li>
+                                                                        <li><a href="#">Elkus Memorial Gym</a></li>
+                                                                </ul>
+                            <div class="mb-1">
+                                                                    <a class="btn btn-violet" href="/farber/lifetown">VISIT THIS FACILITY</a>
+                                                                </div>
+                        </div>
+                        <div class="col">
+                            <div class="img-container bordered"><img src="/_default_upload_bucket/Freindship-Circle-LifeTown.png"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+                        <li>
+                <div class="container fw">
+                    <div class="row">
+                        <div class="col">
+                            <h6></h6>
+                            <h2>Farber Soul Center</h2>
+                            <div class="mb-1">The Farber Center is our newest facility, which will extend our programming into the lives of adults with special needs through the culinary, digital and traditional arts.</div>
+                            <h4>The Home of:</h4>
+                            <ul class="cta mb-1 yellow-dots">
+                                                                    <li><a href="https://friendshipcircle.org/locations/soul_cafe">Soul Cafe</a></li>
+                                                                        <li><a href="https://gallery.friendshipcircle.org/">Soul Gallery</a></li>
+                                                                        <li><a href="https://friendshipcircle.org/programs/a4J3s0000006z3zEAA">Soul Programs</a></li>
+                                                                </ul>
+                            <div class="mb-1">
+                                                                    <a class="btn btn-violet" href="/farber">VISIT THIS FACILITY</a>
+                                                                </div>
+                        </div>
+                        <div class="col">
+                            <div class="img-container bordered"><img src="/_default_upload_bucket/farber-center-soul-cafe_1.png"></div>
+                        </div>
+                    </div>
+                </div>
+            </li>
+                </ul>
+</section>    <section class="in-numbers-alt banner"
+             style="background-image: url(/_default_upload_bucket/in-numbers.jpg);">
+        <div class="pv-2">
+            <div class="container wider">
+                <h2 class="mb-2"><span>Our Impact</span><span></span></h2>
+                <div class="row">
+                                            <div class="col">
+                            <p>2024 Impact Report</p><a class="btn btn-yellow"
+                                                                    href="/_default_upload_bucket/Friendship%20Circle%202024%20Impact%20Report%20-%20Email.pdf">DOWNLOAD</a>
+                        </div>
+                                        </div>
+            </div>
+        </div>
+    </section>
+    <section class="forever-thankyou">
+    <div class="container slim">
+        <div class="ww text-center mb-2">
+                            <h2>Forever Thank You!</h2>
+                <p>Thanks to the generosity of our donors, the Friendship Circle is able to fund programs that serve&nbsp;over 3,000 individuals!</p>
+                
+        </div>
+    </div>
+    <div class="container widest">
+        <div class="row forever-thankyou-row">
+                            <div class="col">
+                    <a class="forever-thankyou-link" href="/about/founding_supporters">
+                        <img src="/_default_upload_bucket/image-thumb__871__auto_61855bf2dff453d336dd89c6fbc9e02d/forever-thankyou-1.webp">                        <span>Founding Supporters</span>
+                    </a>
+                </div>
+                                <div class="col">
+                    <a class="forever-thankyou-link" href="/about/friendship_circle_benefactors">
+                        <img src="/_default_upload_bucket/image-thumb__872__auto_61855bf2dff453d336dd89c6fbc9e02d/forever-thankyou-2.webp">                        <span>Friendship Circle Benefactors</span>
+                    </a>
+                </div>
+                                <div class="col">
+                    <a class="forever-thankyou-link" href="/about/endowment">
+                        <img src="/_default_upload_bucket/image-thumb__873__auto_61855bf2dff453d336dd89c6fbc9e02d/forever-thankyou-3.webp">                        <span>Forever Friendship Endowment Fund</span>
+                    </a>
+                </div>
+                        </div>
+    </div>
+</section>
+    <section class="partners">
+        <div class="container wider mb-2">
+            <div class="row">
+                <div class="col">
+                    <h2><span>Partners</span><span>&amp; Supporters</span></h2>
+                </div>
+                <div class="col ww">
+                    Friendship Circle is grateful for the companies and organizations that make our programs possible.</div>
+            </div>
+        </div>
+        <div class="slider">
+            <div class="preloaderOverlay">
+                <div class="preloader"></div>
+            </div>
+            <div class="partners-slider init slider-instance" id="partners-slider">
+                                    <div class="slide"><img src="/_default_upload_bucket/BELFOR%20Property%20Restoration%20-%20Logo%20%281%29.png"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0019_Layer%202.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0016_Secure%20Planning%20Strategies%20logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0015_Schostak%20logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0014_Layer%203.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0012_Real%20Estate%20One%20Logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0011_Layer%204.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0010_Layer%205.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0008_Layer%206.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0005_Layer%207.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0004_JaxLogo_2018.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0007_Mind%20Health%20Group.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0003_ImageOne.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0002_Illuminate%20Logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/macc-logo-color_1.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0001_Layer%208.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/1800-self-storage-logo-06-04-15-color_orig.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/logos_0000_Layer%209.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/PRINT_Circle_Logo_2294v2_1.png"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/Apple%20Marketing.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/Feldman%20logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/Grand%20Steel%20Logo.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/Blue-Ribbon2.jpg"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/hfh_4-3.png"></div>
+                                        <div class="slide"><img src="/_default_upload_bucket/NEA%20Square%20Logo.png"></div>
+                                </div>
+        </div>
+    </section>
+    </div>
+    <!--  /content -->
+<script> (function(){ var s = document.createElement('script'); var h = document.querySelector('head') || document.body; s.src = 'https://acsbapp.com/apps/app/dist/js/app.js'; s.async = true; s.onload = function(){ acsbJS.init({ statementLink : '', footerHtml : '', hideMobile : false, hideTrigger : false, disableBgProcess : false, language : 'en', position : 'left', leadColor : '#624c9f', triggerColor : '#624c9f', triggerRadius : '50%', triggerPositionX : 'right', triggerPositionY : 'center', triggerIcon : 'people', triggerSize : 'big', triggerOffsetX : 20, triggerOffsetY : 20, mobile : { triggerSize : 'small', triggerPositionX : 'right', triggerPositionY : 'center', triggerOffsetX : 10, triggerOffsetY : 0, triggerRadius : '50%' } }); }; h.appendChild(s); })(); </script>
+<footer class="footer ">
+    <div class="footer-top">
+        <div class="container wide">
+            <div class="row">
+                <div class="col basis-30 rmr-3">
+                    <div class="footer-logo text-center mb-1"><img src="/theme/images/footer-logo.svg"></div>
+                    <ul class="footer-contacts">
+                                                    <li>
+                                <h6>Meer Center</h6>
+                                <div class="footer-address">6892 West Maple Rd.
+West Bloomfield, MI 48322</div>
+                                <a class="footer-phone" href="tel:(248) 788-7878">(248) 788-7878</a>
+                            </li>
+                                                        <li>
+                                <h6>Farber Center</h6>
+                                <div class="footer-address">5586 Drake Rd.
+West Bloomfield, MI 48322</div>
+                                <a class="footer-phone" href="tel:(248) 788-7878">(248) 788-7878</a>
+                            </li>
+                                                        <li>
+                                <h6>Soul Cafe</h6>
+                                <div class="footer-address">5586 Drake Rd,
+West Bloomfield Township, MI 48322</div>
+                                <a class="footer-phone" href="tel:(248) 788-7400">(248) 788-7400</a>
+                            </li>
+                                                </ul>
+                </div>
+                <div class="col quick-links--container">
+                    <h6>Quick Links</h6>
+                    <ul class="quick-links">
+                                                    <li>
+                                <a href="/about" target="_self" title="About">About</a>
+                            </li>
+                                                        <li>
+                                <a href="/programs" target="_self" title="Programs">Programs</a>
+                            </li>
+                                                        <li>
+                                <a href="/volunteers" target="_self" title="Volunteers">Volunteers</a>
+                            </li>
+                                                        <li>
+                                <a href="/educators" target="_self" title="Educators">Educators</a>
+                            </li>
+                                                        <li>
+                                <a href="/news" target="_self" title="News">News</a>
+                            </li>
+                                                        <li>
+                                <a href="/resources" target="_self" title="Resources">Resources</a>
+                            </li>
+                                                        <li>
+                                <a href="/donate" target="_self" title="Donate">Donate</a>
+                            </li>
+                                                        <li>
+                                <a href="https://fcmichigan.force.com/family/s/login/?ec=302&startURL=%2Ffamily%2Fs%2F" target="_self" title="Login">Login</a>
+                            </li>
+                                                </ul>
+                </div>
+                <div class="col quick-links--container">
+                    <h6>QUICK ANSWERS:</h6>
+                    <ul class="quick-links">
+                                                    <li>
+                                <a href="/" target="_self" title="Meer Center">Meer Center</a>
+                            </li>
+                                                        <li>
+                                <a href="/farber" target="_self" title="Farber Center">Farber Center</a>
+                            </li>
+                                                        <li>
+                                <a href="/umatter" target="_self" title="UMatter">UMatter</a>
+                            </li>
+                                                        <li>
+                                <a href="/locations/friendship-house" target="_self" title="Friendship House">Friendship House</a>
+                            </li>
+                                                        <li>
+                                <a href="locations/soul_gallery" target="_self" title="Soul Gallery">Soul Gallery</a>
+                            </li>
+                                                        <li>
+                                <a href="/locations/soul_cafe" target="_self" title="Soul Cafe">Soul Cafe</a>
+                            </li>
+                                                        <li>
+                                <a href="/dakotabread" target="_self" title="Dakota Bread">Dakota Bread</a>
+                            </li>
+                                                        <li>
+                                <a href="https://www.epickoshercatering.com/" target="_self" title="Milk & Honey/Epic Catering">Milk & Honey/Epic Catering</a>
+                            </li>
+                                                </ul>
+                </div>
+                <div class="col basis-35">
+                    <h5 class="photo-gallery">Photo Gallery</h5>
+                    <iframe src="/insta_feed" style="width: 100%; height: 500px; border: none;"></iframe>
+                    <div class="subscribe-block">
+                        <h4>Stay Updated</h4>
+                        <p>Sign up now to get daily latest news & updates from us</p>
+                        <form class="subscribe-form" action="#">
+                            <input type="text" name="subscribe-email" placeholder="Enter email">
+                            <button type="submit"><i class="far fa-paper-plane"> </i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <div class="container wide">
+            <div class="row">
+                <div class="col copyright-container">
+                    <div class="copyright">&copy Copyright <span class="text-yellow">Friendship Circle</span> 2023                                                    <a target="_blank" href="https://friendshipcircle.org/admin/login/deeplink?document_3_page">.</a>
+                                                </div>
+                </div>
+                <div class="col">
+                    <div class="bottom-links-container">
+                        <div class="bottom-links-group">
+                            <ul class="bottom-links">
+                                                                    <li><a href="#">Terms & Condition</a></li>
+                                                                        <li><a href="/privacy-policy">Privacy Policy</a></li>
+                                                                        <li><a href="#">Legal</a></li>
+                                                                </ul>
+                            <a class="made-by" href="https://hadrout.com" target="_blank">WEBSITE BY HADROUT</a>
+                        </div>
+                        <a class="to-top" href="#"><i class="fas fa-level-up-alt"></i></a>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<script src="/theme/js/scripts.min.js"></script>
+<script src="/theme/js/forms.js"></script>
+<script src="/theme/js/main.js"></script>
+</body>
+</html>
