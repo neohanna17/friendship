@@ -1,35 +1,21 @@
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { useLocation } from "wouter";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Search, Trophy, TrendingUp, Users, Award, UserPlus } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { 
-  Search, UserPlus, Award, TrendingUp, Users, Filter, Trophy
-} from "lucide-react";
 import ImageWithFallback from "@/components/ui/image-with-fallback";
-import Thermometer from "@/components/fundraising/thermometer";
 import { formatCurrency } from "@/lib/utils";
-
-interface User {
-  id: number;
-  firstName: string;
-  lastName: string;
-  username: string;
-  profileImage: string;
-  goalAmount: number;
-  raisedAmount: number;
-  bio: string;
-  badges: string[];
-}
 
 export default function Fundraisers() {
   const [, setLocation] = useLocation();
   const [searchTerm, setSearchTerm] = useState("");
   const [activeTab, setActiveTab] = useState("all");
   
-  const { data, isLoading } = useQuery<{ fundraisers: User[] }>({
+  const { data, isLoading } = useQuery<{ fundraisers: any[] }>({
     queryKey: ['/api/fundraisers'],
   });
   
@@ -45,7 +31,6 @@ export default function Fundraisers() {
   
   const fundraisers = data?.fundraisers || [];
   
-  // Filter and sort based on active tab and search
   const filteredFundraisers = fundraisers
     .filter(user => {
       const fullName = `${user.firstName} ${user.lastName}`.toLowerCase();
@@ -57,23 +42,22 @@ export default function Fundraisers() {
         return b.raisedAmount - a.raisedAmount;
       }
       if (activeTab === "recent") {
-        // Sort by most recent (assuming we'd have a createdAt field)
-        return 0; // For now we'll keep it neutral
+        return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
       }
       if (activeTab === "badges") {
         return (b.badges?.length || 0) - (a.badges?.length || 0);
       }
-      return b.raisedAmount - a.raisedAmount; // Default sort by raised amount
+      return b.raisedAmount - a.raisedAmount;
     });
-    
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="text-center mb-12">
-        <h1 className="text-3xl md:text-4xl font-bold mb-4 bg-gradient-to-r from-purple-600 to-pink-500 text-transparent bg-clip-text">
+        <h1 className="text-4xl font-bold mb-4">
           Our Amazing Fundraisers
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-          Meet the incredible individuals who are making a difference. Support their efforts or join them by creating your own fundraiser.
+          Meet the incredible individuals who are making a difference in our community. Join them by creating your own fundraising page.
         </p>
       </div>
       
@@ -88,112 +72,116 @@ export default function Fundraisers() {
           />
         </div>
         
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
-          <TabsList>
-            <TabsTrigger value="all" className="flex items-center gap-1">
-              <Users className="h-4 w-4" /> All
-            </TabsTrigger>
-            <TabsTrigger value="top" className="flex items-center gap-1">
-              <Trophy className="h-4 w-4" /> Top
-            </TabsTrigger>
-            <TabsTrigger value="recent" className="flex items-center gap-1">
-              <TrendingUp className="h-4 w-4" /> Recent
-            </TabsTrigger>
-            <TabsTrigger value="badges" className="flex items-center gap-1">
-              <Award className="h-4 w-4" /> Badges
-            </TabsTrigger>
-          </TabsList>
-        </Tabs>
-        
-        <Button 
-          onClick={() => setLocation("/register")}
-          className="w-full md:w-auto gap-2 bg-gradient-to-r from-purple-600 to-pink-500 hover:from-purple-700 hover:to-pink-600"
-        >
-          <UserPlus className="h-4 w-4" /> Become a Fundraiser
-        </Button>
+        <div className="flex gap-4 items-center">
+          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full md:w-auto">
+            <TabsList>
+              <TabsTrigger value="all" className="flex items-center gap-1">
+                <Users className="h-4 w-4" /> All
+              </TabsTrigger>
+              <TabsTrigger value="top" className="flex items-center gap-1">
+                <Trophy className="h-4 w-4" /> Top
+              </TabsTrigger>
+              <TabsTrigger value="recent" className="flex items-center gap-1">
+                <TrendingUp className="h-4 w-4" /> Recent
+              </TabsTrigger>
+              <TabsTrigger value="badges" className="flex items-center gap-1">
+                <Award className="h-4 w-4" /> Badges
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+          
+          <Button 
+            onClick={() => setLocation("/register")}
+            className="hidden md:flex items-center gap-2"
+          >
+            <UserPlus className="h-4 w-4" /> Become a Fundraiser
+          </Button>
+        </div>
       </div>
       
       {filteredFundraisers.length > 0 ? (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {filteredFundraisers.map(user => (
+          {filteredFundraisers.map(fundraiser => (
             <Card 
-              key={user.id} 
-              className="overflow-hidden hover:shadow-lg transition-all cursor-pointer"
-              onClick={() => setLocation(`/fundraisers/${user.id}`)}
+              key={fundraiser.id} 
+              className="overflow-hidden hover:shadow-lg transition-all cursor-pointer group"
+              onClick={() => setLocation(`/fundraisers/${fundraiser.id}`)}
             >
-              <div className="h-40 relative">
+              <div className="aspect-[4/3] relative overflow-hidden">
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/50 z-10" />
-                <div className="absolute bottom-4 left-4 z-20 flex items-center">
-                  <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
-                    <ImageWithFallback
-                      src={user.profileImage}
-                      fallback="/images/default-avatar.png"
-                      alt={`${user.firstName} ${user.lastName}`}
-                      className="w-full h-full object-cover"
-                    />
+                <ImageWithFallback
+                  src={fundraiser.profileImage}
+                  fallback="/images/default-avatar.png"
+                  alt={`${fundraiser.firstName} ${fundraiser.lastName}`}
+                  className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                />
+                <div className="absolute bottom-4 left-4 right-4 z-20">
+                  <h3 className="text-xl font-semibold text-white mb-1">
+                    {fundraiser.firstName} {fundraiser.lastName}
+                  </h3>
+                  <div className="flex items-center gap-2 text-white/90 text-sm">
+                    <Trophy className="h-4 w-4" />
+                    {formatCurrency(fundraiser.raisedAmount)} raised
                   </div>
-                  <div className="ml-2 text-white">
-                    <h3 className="font-bold">{user.firstName} {user.lastName}</h3>
-                    {user.badges && user.badges.length > 0 && (
-                      <div className="flex items-center text-xs">
-                        <Award className="h-3 w-3 mr-1 text-yellow-300" />
-                        <span>{user.badges.length} badges</span>
-                      </div>
-                    )}
-                  </div>
-                </div>
-                <div className="w-full h-full">
-                  <div className="w-full h-full bg-gradient-to-br from-purple-600 to-pink-500"></div>
                 </div>
               </div>
               
               <CardContent className="p-4">
-                <div className="mb-4">
-                  <Thermometer 
-                    current={user.raisedAmount} 
-                    goal={user.goalAmount}
-                    height="60px"
-                    animate={true}
+                <div className="flex items-center justify-between mb-2">
+                  <div className="text-sm text-muted-foreground">
+                    Goal: {formatCurrency(fundraiser.goalAmount)}
+                  </div>
+                  <div className="text-sm font-medium text-primary">
+                    {Math.round((fundraiser.raisedAmount / fundraiser.goalAmount) * 100)}%
+                  </div>
+                </div>
+                
+                <div className="h-2 bg-muted rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-primary transition-all" 
+                    style={{ 
+                      width: `${Math.min(100, Math.round((fundraiser.raisedAmount / fundraiser.goalAmount) * 100))}%` 
+                    }}
                   />
                 </div>
                 
-                <div className="flex justify-between items-end">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Raised</p>
-                    <p className="text-lg font-bold text-primary">
-                      {formatCurrency(user.raisedAmount)}
-                    </p>
+                {fundraiser.badges && fundraiser.badges.length > 0 && (
+                  <div className="flex gap-1 mt-3">
+                    {fundraiser.badges.slice(0, 3).map((badge: string, index: number) => (
+                      <div 
+                        key={index}
+                        className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center"
+                        title={badge}
+                      >
+                        <Award className="h-4 w-4 text-primary" />
+                      </div>
+                    ))}
+                    {fundraiser.badges.length > 3 && (
+                      <div className="w-6 h-6 rounded-full bg-muted flex items-center justify-center text-xs">
+                        +{fundraiser.badges.length - 3}
+                      </div>
+                    )}
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm text-muted-foreground">Goal</p>
-                    <p className="font-medium">
-                      {formatCurrency(user.goalAmount)}
-                    </p>
-                  </div>
-                </div>
-                
-                <div className="mt-4">
-                  <Button 
-                    variant="outline" 
-                    className="w-full"
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setLocation(`/donate?userId=${user.id}`);
-                    }}
-                  >
-                    Support {user.firstName}
-                  </Button>
-                </div>
+                )}
               </CardContent>
             </Card>
           ))}
         </div>
       ) : (
         <div className="text-center py-12">
-          <p className="text-muted-foreground mb-4">No fundraisers match your search.</p>
-          <Button onClick={() => setSearchTerm("")}>Clear Search</Button>
+          <Trophy className="h-12 w-12 text-primary/40 mx-auto mb-3" />
+          <p className="text-muted-foreground">
+            No fundraisers found. {searchTerm ? "Try a different search term." : "Be the first to start fundraising!"}
+          </p>
         </div>
       )}
+      
+      <Button 
+        onClick={() => setLocation("/register")}
+        className="w-full mt-8 md:hidden"
+      >
+        <UserPlus className="h-4 w-4 mr-2" /> Become a Fundraiser
+      </Button>
     </div>
   );
 }
