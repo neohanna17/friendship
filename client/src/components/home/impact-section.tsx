@@ -43,8 +43,8 @@ const ImpactSection = () => {
           <Card className="overflow-hidden shadow-md border-none">
             <div className="relative h-64">
               <img 
-                src="https://images.unsplash.com/photo-1536337005238-94b997371b40?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=300&q=80" 
-                alt="Volunteers supporting individuals" 
+                src="/images/community-support.jpeg" 
+                alt="Community support" 
                 className="w-full h-full object-cover"
               />
             </div>

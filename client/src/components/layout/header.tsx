@@ -38,7 +38,7 @@ const Header = () => {
           <div className="flex items-center">
             <Link href="/" className="mr-3">
               <div className="flex items-center">
-                <img src="/images/logo-white.svg" alt="Walk for Friendship Logo" className="h-10" />
+                <img src="/images/logo-white.png" alt="Walk for Friendship Logo" className="h-10" />
               </div>
             </Link>
             <div className="hidden md:flex space-x-6 ml-6">
