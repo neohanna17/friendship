@@ -11,14 +11,14 @@ const ImpactSection = () => {
             Every dollar you raise helps Friendship Circle support individuals with special needs and their families.
           </p>
         </div>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="overflow-hidden shadow-md border-none">
             <div className="relative h-72 overflow-hidden">
               <img 
                 src="/images/community-support.jpeg" 
                 alt="Community support" 
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover"
               />
             </div>
             <CardContent className="p-6">
@@ -39,9 +39,9 @@ const ImpactSection = () => {
               </div>
             </CardContent>
           </Card>
-          
+
           <Card className="overflow-hidden shadow-md border-none">
-            <div className="relative h-64">
+            <div className="relative h-72">
               <img 
                 src="/images/jump.jpg" 
                 alt="Child jumping with confidence" 
