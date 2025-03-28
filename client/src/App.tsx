@@ -7,6 +7,8 @@ import Footer from "./components/layout/footer";
 import NotFound from "@/pages/not-found";
 import Home from "@/pages/home";
 import Register from "@/pages/register";
+
+      <Route path="/incentives" component={Incentives} />
 import Teams from "@/pages/teams";
 import TeamProfile from "@/pages/team-profile";
 import Fundraisers from "@/pages/fundraisers";
@@ -15,6 +17,7 @@ import Sponsors from "@/pages/sponsors";
 import About from "@/pages/about";
 import Dashboard from "@/pages/dashboard";
 import Donate from "@/pages/donate";
+import Incentives from "@/pages/incentives";
 
 function Router() {
   return (
