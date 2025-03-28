@@ -358,21 +358,54 @@ export class MemStorage implements IStorage {
     this.sponsors.set(sponsor1.id, sponsor1);
     this.sponsors.set(sponsor2.id, sponsor2);
     
-    // Add some sample donations
-    this.donations.set(this.currentDonationId++, {
-      id: this.currentDonationId,
-      amount: 100,
-      donorName: "Anonymous Donor",
-      donorEmail: "anonymous@example.com",
-      message: "Great cause!",
-      teamId: team1.id,
-      userId: null,
-      isAnonymous: true,
-      isInHonorOf: false,
-      honoreeInfo: "",
-      stripePaymentId: "pi_12345",
-      paymentStatus: "completed",
-      createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000) // 7 days ago
+    // Add sample top fundraisers
+    const sampleFundraisers = [
+      { firstName: "Sarah", lastName: "Johnson", raisedAmount: 5400, goalAmount: 6000, profileImage: "/images/default-avatar.png" },
+      { firstName: "Michael", lastName: "Chen", raisedAmount: 4200, goalAmount: 5000, profileImage: "/images/default-avatar.png" },
+      { firstName: "Emily", lastName: "Davis", raisedAmount: 3800, goalAmount: 4000, profileImage: "/images/default-avatar.png" },
+      { firstName: "David", lastName: "Miller", raisedAmount: 3200, goalAmount: 4000, profileImage: "/images/default-avatar.png" },
+      { firstName: "Rachel", lastName: "Wilson", raisedAmount: 2900, goalAmount: 3000, profileImage: "/images/default-avatar.png" }
+    ];
+
+    sampleFundraisers.forEach(fundraiser => {
+      const user = {
+        id: this.currentUserId++,
+        ...fundraiser,
+        email: `${fundraiser.firstName.toLowerCase()}@example.com`,
+        username: `${fundraiser.firstName.toLowerCase()}${fundraiser.lastName.toLowerCase()}`,
+        bio: `Passionate about making a difference`,
+        role: "fundraiser",
+        isActive: true,
+        createdAt: new Date()
+      };
+      this.users.set(user.id, user);
+    });
+
+    // Add sample donations
+    const sampleDonors = [
+      { name: "Robert & Lisa Smith", amount: 1000, message: "Keep up the amazing work!" },
+      { name: "Anonymous Friend", amount: 750, isAnonymous: true, message: "Happy to support this cause" },
+      { name: "The Thompson Family", amount: 500, message: "Wonderful initiative!" },
+      { name: "John Peterson", amount: 450, message: "Making a difference together" },
+      { name: "Grace Lee", amount: 400, message: "In support of this great mission" }
+    ];
+
+    sampleDonors.forEach(donor => {
+      this.donations.set(this.currentDonationId++, {
+        id: this.currentDonationId,
+        amount: donor.amount,
+        donorName: donor.name,
+        donorEmail: "donor@example.com",
+        message: donor.message,
+        teamId: team1.id,
+        userId: null,
+        isAnonymous: donor.isAnonymous || false,
+        isInHonorOf: false,
+        honoreeInfo: "",
+        stripePaymentId: `pi_${Math.random().toString(36).substr(2, 9)}`,
+        paymentStatus: "completed",
+        createdAt: new Date(Date.now() - Math.floor(Math.random() * 7) * 24 * 60 * 60 * 1000)
+      });
     });
     
     this.donations.set(this.currentDonationId++, {
