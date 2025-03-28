@@ -90,18 +90,11 @@ const HeroSection = () => {
   }, [data]);
   
   return (
-    <section className="bg-primary text-white">
-      <div className="container mx-auto px-4 py-10 md:py-20">
+    <section className="bg-gradient-to-br from-white via-[#f8f0ff] to-primary/10 text-gray-800">
+      <div className="container mx-auto px-4 py-14 md:py-28">
         <div className="flex flex-col md:flex-row md:items-center">
           <div className="md:w-1/2 mb-8 md:mb-0">
-            <div className="mb-2">
-              <img 
-                src="/images/brighter-together.png" 
-                alt="Brighter Together" 
-                className="w-64 h-auto mb-4"
-              />
-            </div>
-            <h1 className="font-heading font-extrabold text-4xl md:text-5xl lg:text-6xl mb-4">
+            <h1 className="font-heading font-extrabold text-4xl md:text-5xl lg:text-6xl mb-4 text-primary">
               Walk for Friendship <span className="text-secondary">2025</span>
             </h1>
             <p className="text-xl md:text-2xl mb-6 font-light">
@@ -114,7 +107,7 @@ const HeroSection = () => {
                 </Button>
               </Link>
               <Link href="/donate">
-                <Button size="lg" variant="outline" className="bg-white hover:bg-opacity-80 text-primary font-bold rounded-full text-lg">
+                <Button size="lg" variant="outline" className="border-primary hover:bg-primary/10 text-primary font-bold rounded-full text-lg">
                   Donate
                 </Button>
               </Link>
@@ -122,10 +115,17 @@ const HeroSection = () => {
           </div>
           <div className="md:w-1/2 flex justify-center">
             <div className="relative">
+              <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs">
+                <img 
+                  src="/images/brighter-together.png" 
+                  alt="Brighter Together" 
+                  className="w-full h-auto animate-float"
+                />
+              </div>
               <img
                 src="/images/hero-image.jpeg"
                 alt="Friends walking together"
-                className="rounded-lg shadow-xl"
+                className="rounded-xl shadow-2xl border-4 border-white opacity-90"
               />
               <div className="absolute -bottom-6 -right-6 bg-secondary text-white p-4 rounded-lg shadow-lg transform rotate-3">
                 <p className="font-heading font-bold text-xl">{eventDate.split(',')[1]}</p>

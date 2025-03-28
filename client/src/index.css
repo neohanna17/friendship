@@ -51,15 +51,32 @@
   /* Fun animated thermometer progress */
   .thermometer-progress {
     transition: width 1.5s ease-in-out;
-    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--secondary)));
     background-size: 200% 100%;
-    animation: shimmer 3s infinite;
-    box-shadow: 0 0 8px rgba(var(--primary), 0.5);
+    box-shadow: 0 0 8px rgba(143, 0, 255, 0.5);
+    position: relative;
+    overflow: hidden;
   }
-
-  @keyframes shimmer {
-    0% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
+  
+  .thermometer-progress::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(90deg, 
+      rgba(255,255,255,0.1),
+      rgba(255,255,255,0.2),
+      rgba(255,255,255,0.1)
+    );
+    transform: translateX(-100%);
+    animation: shimmer-once 2s ease-out forwards;
+  }
+  
+  @keyframes shimmer-once {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
   
   /* Animated counter */
@@ -229,5 +246,16 @@
   
   .animate-fadeIn {
     animation: fadeIn 0.5s ease-out forwards;
+  }
+  
+  /* Floating animation for "Brighter Together" image */
+  @keyframes float {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-15px); }
+    100% { transform: translateY(0px); }
+  }
+  
+  .animate-float {
+    animation: float 4s ease-in-out infinite;
   }
 }
