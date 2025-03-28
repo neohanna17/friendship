@@ -17,20 +17,20 @@ interface User {
 const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [location] = useLocation();
-  
+
   const { data } = useQuery<{ user: User | null }>({ 
     queryKey: ['/api/auth/user'],
     retry: false,
     onError: () => {}
   });
-  
+
   const user = data?.user;
-  
+
   // Close mobile menu when navigating
   useEffect(() => {
     setMobileMenuOpen(false);
   }, [location]);
-  
+
   return (
     <header className="bg-primary shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
@@ -45,7 +45,7 @@ const Header = () => {
               <NavItem href="/" label="Home" />
               <NavItem href="/teams" label="Teams" />
               <NavItem href="/fundraisers" label="Fundraisers" />
-              <NavItem href="/fundraising-toolkit" label="Guide" />
+              <NavItem href="/guide" label="Guide" /> {/* Added Guide link */}
               <NavItem href="/incentives" label="Incentives" />
               <NavItem href="/volunteer" label="Volunteer" />
               <NavItem href="/sponsors" label="Sponsors" />
@@ -85,7 +85,7 @@ const Header = () => {
           </div>
         </div>
       </div>
-      
+
       {/* Mobile menu */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-primary w-full py-4 px-6 shadow-md animate-fade-in">
@@ -95,6 +95,7 @@ const Header = () => {
             <NavItem href="/teams" label="Teams" mobile />
             <NavItem href="/fundraisers" label="Fundraisers" mobile />
             <NavItem href="/fundraising-toolkit" label="Fundraising Toolkit" mobile />
+            <NavItem href="/guide" label="Guide" mobile /> {/* Added Guide link to mobile menu */}
             <NavItem href="/incentives" label="Incentives" mobile />
             <NavItem href="/volunteer" label="Volunteer" mobile />
             <NavItem href="/sponsors" label="Sponsors" mobile />
@@ -128,7 +129,7 @@ interface NavItemProps {
 const NavItem = ({ href, label, mobile = false }: NavItemProps) => {
   const [location] = useLocation();
   const isActive = location === href;
-  
+
   return (
     <Link href={href}>
       <span 
