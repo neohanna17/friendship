@@ -1,0 +1,103 @@
+Prompt: Rebuild Walk for Friendship Website in WordPress
+Executive Summary
+Friendship Circle of Michigan is seeking to transition its Walk for Friendship fundraising website from Rallybound (Neon One) to a fully customized, modern, and more flexible WordPress-based platform. This rebuild should replicate all current functionality, enhance the user experience, reduce long-term costs, and allow for easy staff management.
+
+🔧 Project Scope: Walk for Friendship Website Redesign
+🔹 Platform Goals
+Migrate the site from Rallybound to WordPress
+
+Maintain existing branding and colors
+
+Make it more dynamic, fun, and engaging
+
+Improve mobile experience and site performance
+
+Ensure the new site is self-manageable by non-technical staff
+
+🧩 Required Features
+🔸 Peer-to-Peer Fundraising
+Team Registration: Ability for users to create teams and invite members
+
+Team & Individual Fundraising Pages: Each with editable bios, photos, and donation progress
+
+Hierarchical Structure: Teams → Captains → Members
+
+Sponsorship Options: Tiered sponsorship packages with recognition
+
+Leaderboards: Highlighting top teams and individuals
+
+Fundraising Thermometers: Real-time goal tracking
+
+🔸 Payment & Donation Options
+Stripe integration as primary processor (with support for PayPal, Venmo, etc.)
+
+Track processing fees by method
+
+Recurring donations
+
+Tribute donations (In honor/memory)
+
+Upsell prompts to boost donations
+
+🔄 Data & CRM Integration
+Salesforce Integration is critical
+
+Sync donor data, transactions, teams, campaigns, and custom fields
+
+Full API access for customization and reporting
+
+Zapier-compatible triggers for marketing and automation
+
+📈 Back-End Admin Requirements
+Staff-friendly dashboard to view/manage:
+
+All fundraisers, donors, and teams
+
+Fundraising stats and reports
+
+Donation history and attribution
+
+Campaign Cloning: Easily replicate campaigns annually
+
+Set and automate fundraising milestone notifications (25%, 50%, 75%)
+
+💌 Marketing & Engagement
+Mailchimp Integration for drip campaigns
+
+Automated Emails for registration, milestones, and thank-yous
+
+Social sharing for individual/team fundraising pages
+
+🎨 Design Requirements
+Keep Friendship Circle’s brand colors and style
+
+Add animation, interactivity, or micro-interactions to make it more fun
+
+Improve site speed and responsiveness
+
+Use a clean, accessible design for all users
+
+📅 Timeline
+Walk site must be ready by May 2025
+
+Fundraising starts July 1, 2025
+
+Walk event in August 2025
+
+📦 Deliverables
+Fully functional WordPress site (with Elementor or Gutenberg preferred)
+
+Admin documentation/training for staff
+
+Salesforce integration working and tested
+
+All legacy functionality from Rallybound replicated or improved
+
+Ongoing support optional but preferred
+
+🧠 Notes for Dev Team
+You will not be rebuilding the Great Bike Giveaway site (separate project)
+
+You can reuse elements from Rallybound for inspiration, but we want a more modern, interactive, and joyful feel for the new version
+
+Please suggest creative ways to make the site more engaging for families and donors
