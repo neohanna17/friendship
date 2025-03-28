@@ -44,9 +44,9 @@ const SponsorshipSection = () => {
           </div>
         ) : (
           <>
-            <div className="mb-12"> {/*Added div for scroller*/}
+            <div className="mb-12 overflow-hidden">
               <div className="sponsor-scroller">
-                {data?.sponsors.map((sponsor) => (
+                {[...data?.sponsors, ...data?.sponsors].map((sponsor, index) => (
                   <a
                     key={sponsor.id}
                     href={sponsor.websiteUrl}
