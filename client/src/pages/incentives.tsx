@@ -1,3 +1,4 @@
+
 import { IncentiveTiers } from "@/components/incentives/incentive-tiers";
 
 export default function IncentivesPage() {
@@ -6,10 +7,10 @@ export default function IncentivesPage() {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h1 className="font-heading font-bold text-4xl text-gray-900 mb-4">
-            Power Walker Incentives
+            Power Walker Rewards
           </h1>
           <p className="text-gray-600 text-lg max-w-2xl mx-auto">
-            Raise funds and earn exclusive rewards! The more you raise, the more amazing perks you'll receive.
+            Unlock amazing rewards as you reach new fundraising milestones!
           </p>
         </div>
 
