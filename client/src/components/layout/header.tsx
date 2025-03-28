@@ -32,13 +32,13 @@ const Header = () => {
   }, [location]);
   
   return (
-    <header className="bg-white shadow-md sticky top-0 z-50">
+    <header className="bg-primary shadow-md sticky top-0 z-50">
       <div className="container mx-auto px-4">
         <div className="flex justify-between items-center py-3">
           <div className="flex items-center">
             <Link href="/" className="mr-3">
-              <div className="text-primary font-heading font-extrabold text-xl">
-                Walk for Friendship
+              <div className="flex items-center">
+                <img src="/images/logo-white.svg" alt="Walk for Friendship Logo" className="h-10" />
               </div>
             </Link>
             <div className="hidden md:flex space-x-6 ml-6">
@@ -63,13 +63,13 @@ const Header = () => {
               </Link>
             ) : (
               <Link href="/register">
-                <Button variant="default" className="rounded-full">
+                <Button variant="outline" className="rounded-full bg-white/10 text-white hover:bg-white/20 hover:text-white">
                   Register
                 </Button>
               </Link>
             )}
             <button 
-              className="md:hidden text-dark" 
+              className="md:hidden text-white" 
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               aria-label="Toggle Menu"
             >
@@ -85,14 +85,14 @@ const Header = () => {
       
       {/* Mobile menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden bg-white w-full py-4 px-6 shadow-md animate-fade-in">
+        <div className="md:hidden bg-primary w-full py-4 px-6 shadow-md animate-fade-in">
           <div className="flex flex-col space-y-4">
             <NavItem href="/" label="Home" mobile />
             <NavItem href="/register" label="Register" mobile />
             <NavItem href="/teams" label="Teams" mobile />
             <NavItem href="/sponsors" label="Sponsors" mobile />
             <NavItem href="/about" label="About" mobile />
-            <Separator />
+            <Separator className="bg-white/20" />
             <Link href="/donate">
               <Button variant="secondary" className="w-full rounded-full">
                 Donate Now
@@ -100,7 +100,7 @@ const Header = () => {
             </Link>
             {user && (
               <Link href="/dashboard">
-                <Button variant="outline" className="w-full">
+                <Button variant="outline" className="w-full bg-white/10 text-white hover:bg-white/20">
                   Dashboard
                 </Button>
               </Link>
@@ -127,8 +127,8 @@ const NavItem = ({ href, label, mobile = false }: NavItemProps) => {
       <span 
         className={`${
           mobile ? 'block py-2' : 'nav-item'
-        } text-dark hover:text-primary font-heading font-semibold transition ${
-          isActive ? 'text-primary' : ''
+        } ${mobile ? 'text-white' : 'text-white'} hover:text-white/80 font-heading font-semibold transition ${
+          isActive ? 'text-white underline underline-offset-4' : ''
         }`}
       >
         {label}

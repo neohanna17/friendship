@@ -39,6 +39,9 @@ const HeroSection = () => {
       }) 
     : 'Sunday, August 30, 2025';
   
+  // Track if this is the first render
+  const isFirstRender = useRef(true);
+
   useEffect(() => {
     if (data && raisedAmountRef.current) {
       // Animate the raised amount counter
@@ -62,15 +65,26 @@ const HeroSection = () => {
         animateCounter(donationsCountRef.current, data.stats.donations);
       }
       
-      // Animate thermometer
+      // Only animate thermometer on first render to prevent glitching
       if (thermometerRef.current) {
-        thermometerRef.current.style.width = "0%";
-        setTimeout(() => {
-          thermometerRef.current!.style.width = `${calculateProgress(
+        if (isFirstRender.current) {
+          isFirstRender.current = false;
+          thermometerRef.current.style.width = "0%";
+          setTimeout(() => {
+            if (thermometerRef.current) {
+              thermometerRef.current.style.width = `${calculateProgress(
+                data.settings.raisedAmount,
+                data.settings.goalAmount
+              )}%`;
+            }
+          }, 300);
+        } else {
+          // Simply update the width without animation on subsequent renders
+          thermometerRef.current.style.width = `${calculateProgress(
             data.settings.raisedAmount,
             data.settings.goalAmount
           )}%`;
-        }, 300);
+        }
       }
     }
   }, [data]);
@@ -102,7 +116,7 @@ const HeroSection = () => {
           <div className="md:w-1/2 flex justify-center">
             <div className="relative">
               <img
-                src="https://images.unsplash.com/photo-1529156069898-49953e39b3ac?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=400&q=80"
+                src="/images/hero-image.jpeg"
                 alt="Friends walking together"
                 className="rounded-lg shadow-xl"
               />
