@@ -85,7 +85,7 @@ export class MemStorage implements IStorage {
       eventDate: new Date("2025-08-30"),
       eventDescription: "Join us for a day of fun, friendship, and fundraising!",
       goalAmount: 1000000,
-      raisedAmount: 974505,
+      raisedAmount: 78000,
       registrationOpen: true,
       lastUpdated: new Date()
     };

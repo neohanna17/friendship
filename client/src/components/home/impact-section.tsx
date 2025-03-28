@@ -43,8 +43,8 @@ const ImpactSection = () => {
           <Card className="overflow-hidden shadow-md border-none">
             <div className="relative h-64">
               <img 
-                src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?ixlib=rb-1.2.1&auto=format&fit=crop&w=600&h=300&q=80" 
-                alt="Children playing together" 
+                src="/images/jump.jpg" 
+                alt="Child jumping with confidence" 
                 className="w-full h-full object-cover"
               />
             </div>

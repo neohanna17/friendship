@@ -111,21 +111,28 @@ const HeroSection = () => {
                   Donate
                 </Button>
               </Link>
+              <div className="ml-4 hidden sm:block">
+                <img 
+                  src="/images/brighter-together.png" 
+                  alt="Brighter Together" 
+                  className="h-12 w-auto animate-float"
+                />
+              </div>
+            </div>
+            <div className="mt-4 sm:hidden flex justify-start">
+              <img 
+                src="/images/brighter-together.png" 
+                alt="Brighter Together" 
+                className="h-10 w-auto animate-float"
+              />
             </div>
           </div>
           <div className="md:w-1/2 flex justify-center">
             <div className="relative">
-              <div className="absolute z-10 top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-xs">
-                <img 
-                  src="/images/brighter-together.png" 
-                  alt="Brighter Together" 
-                  className="w-full h-auto animate-float"
-                />
-              </div>
               <img
                 src="/images/hero-image.jpeg"
                 alt="Friends walking together"
-                className="rounded-xl shadow-2xl border-4 border-white opacity-90"
+                className="rounded-xl shadow-2xl border-4 border-white"
               />
               <div className="absolute -bottom-6 -right-6 bg-secondary text-white p-4 rounded-lg shadow-lg transform rotate-3">
                 <p className="font-heading font-bold text-xl">{eventDate.split(',')[1]}</p>
