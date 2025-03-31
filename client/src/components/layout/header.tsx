@@ -49,6 +49,7 @@ const Header = () => {
               <NavItem href="/incentives" label="Incentives" />
               <NavItem href="/volunteer" label="Volunteer" />
               <NavItem href="/sponsors" label="Sponsors" />
+              <NavItem href="/about" label="About" />
             </div>
           </div>
           <div className="flex items-center space-x-4">
@@ -98,6 +99,7 @@ const Header = () => {
             <NavItem href="/incentives" label="Incentives" mobile />
             <NavItem href="/volunteer" label="Volunteer" mobile />
             <NavItem href="/sponsors" label="Sponsors" mobile />
+            <NavItem href="/about" label="About" mobile />
             <Separator className="bg-white/20" />
             <Link href="/donate">
               <Button variant="secondary" className="w-full rounded-full">
