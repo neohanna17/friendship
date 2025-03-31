@@ -44,13 +44,13 @@ const SponsorsPage = () => {
         <div className="bg-white rounded-xl shadow-md py-8 px-6 mb-16">
           <h2 className="text-2xl font-bold text-center mb-8">Featured Sponsors</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-y-8 items-center">
-            <img src="@assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
-            <img src="@assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-12 object-contain mx-auto" />
-            <img src="@assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-12 object-contain mx-auto" />
-            <img src="@assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-14 object-contain mx-auto" />
-            <img src="@assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-14 object-contain mx-auto" />
-            <img src="@assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-14 object-contain mx-auto" />
-            <img src="@assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-12 object-contain mx-auto" />
+            <img src="/attached_assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
+            <img src="/attached_assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-12 object-contain mx-auto" />
+            <img src="/attached_assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-12 object-contain mx-auto" />
+            <img src="/attached_assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-14 object-contain mx-auto" />
+            <img src="/attached_assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-14 object-contain mx-auto" />
+            <img src="/attached_assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-14 object-contain mx-auto" />
+            <img src="/attached_assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-12 object-contain mx-auto" />
           </div>
         </div>
         
