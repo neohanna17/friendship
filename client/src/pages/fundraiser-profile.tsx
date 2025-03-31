@@ -1,368 +1,248 @@
-import { useEffect, useState } from "react";
-import { useParams, useLocation } from "wouter";
-import { useQuery } from "@tanstack/react-query";
-import { User } from "@/shared/schema";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
-import { 
-  Heart, Users, Calendar, Award, ArrowLeft, Edit 
-} from "lucide-react";
-import DonationForm from "@/components/fundraising/donation-form";
-import Thermometer from "@/components/fundraising/thermometer";
-import ImageWithFallback from "@/components/ui/image-with-fallback";
-import GalleryCarousel from "@/components/ui/gallery-carousel";
-import { formatCurrency } from "@/lib/utils";
-import BadgeDisplay from "@/components/fundraising/badge-display";
-import DonationList from "@/components/fundraising/donation-list";
+import React, { useEffect, useRef } from 'react';
+import { Link, useParams } from 'wouter';
+import { useQuery } from '@tanstack/react-query';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Progress } from '@/components/ui/progress';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Badge } from '@/components/ui/badge';
+import { Separator } from '@/components/ui/separator';
+import { animateCounter, formatCurrency } from '@/lib/utils';
+import DonationForm from '@/components/fundraising/donation-form';
+import { getQueryFn } from '@/lib/queryClient';
+
+interface User {
+  id: number;
+  firstName: string;
+  lastName: string;
+  username: string;
+  email: string;
+  profileImage: string | null;
+  bio: string | null;
+  goalAmount: number;
+  raisedAmount: number;
+  progress: number;
+  badges: string[];
+  createdAt: string | Date;
+}
 
 interface Donation {
   id: number;
   amount: number;
   donorName: string;
-  message: string;
+  message: string | null;
   isAnonymous: boolean;
-  createdAt: string;
+  createdAt: string | Date;
 }
 
-interface FundraiserProfileData {
-  user: User & {
-    goalAmount: number;
-    raisedAmount: number;
-    badges: string[];
-    createdAt: string;
-  };
+interface Team {
+  id: number;
+  name: string;
+  teamImage: string | null;
+}
+
+interface FundraiserData {
+  user: User;
   donations: Donation[];
-  teams: {
-    id: number;
-    name: string;
-    teamImage: string;
-  }[];
+  teams: Team[];
 }
 
 export default function FundraiserProfile() {
-  const { id } = useParams<{ id: string }>();
-  const [, setLocation] = useLocation();
-  const [activeTab, setActiveTab] = useState("details");
+  const [params] = useParams();
+  const fundraiserId = params?.id ? parseInt(params.id) : null;
   
-  // Check if user is logged in
-  const { data: authData } = useQuery({ 
-    queryKey: ['/api/auth/user'],
-    retry: false,
-    gcTime: 0
-  });
+  const raisedAmountRef = useRef<HTMLSpanElement>(null);
+  const goalAmountRef = useRef<HTMLSpanElement>(null);
+  const progressRef = useRef<HTMLSpanElement>(null);
   
   // Fetch fundraiser data
-  const { data, isLoading, isError } = useQuery<{ data: FundraiserProfileData }>({
-    queryKey: [`/api/fundraisers/${id}`],
-    enabled: !!id,
+  const { data, isLoading, error } = useQuery({
+    queryKey: ['/api/fundraisers', fundraiserId],
+    queryFn: getQueryFn({ on401: 'returnNull' }),
+    enabled: !!fundraiserId,
   });
-
+  
+  const fundraiser: FundraiserData | undefined = data?.data;
+  
+  // Handle animations when data loads
   useEffect(() => {
-    // Scroll to top on component mount
-    window.scrollTo(0, 0);
-  }, []);
-
+    if (fundraiser && raisedAmountRef.current && goalAmountRef.current && progressRef.current) {
+      animateCounter(raisedAmountRef.current, fundraiser.user.raisedAmount, 2000, '$');
+      animateCounter(goalAmountRef.current, fundraiser.user.goalAmount, 2000, '$');
+      animateCounter(progressRef.current, fundraiser.user.progress, 2000, '', '%');
+    }
+  }, [fundraiser]);
+  
   if (isLoading) {
     return (
-      <div className="container mx-auto py-12 px-4">
-        <div className="flex justify-center items-center min-h-[400px]">
-          <div className="animate-spin rounded-full h-12 w-12 border-4 border-primary border-t-transparent"></div>
+      <div className="container mx-auto py-12">
+        <div className="flex flex-col items-center justify-center gap-4 text-center">
+          <div className="h-20 w-20 animate-spin rounded-full border-b-2 border-primary"></div>
+          <h2 className="text-2xl font-bold">Loading fundraiser information...</h2>
         </div>
       </div>
     );
   }
-
-  if (isError || !data) {
+  
+  if (error || !fundraiser) {
     return (
-      <div className="container mx-auto py-12 px-4">
-        <div className="flex flex-col items-center justify-center min-h-[400px] text-center">
-          <h2 className="text-2xl font-bold mb-4">Fundraiser Not Found</h2>
-          <p className="text-muted-foreground mb-6">We couldn't find the fundraiser you're looking for.</p>
-          <Button onClick={() => setLocation("/fundraisers")}>
-            View All Fundraisers
+      <div className="container mx-auto py-12">
+        <div className="flex flex-col items-center justify-center gap-4 text-center">
+          <h2 className="text-2xl font-bold">Fundraiser not found</h2>
+          <p className="text-muted-foreground">The fundraiser you're looking for doesn't exist or has been removed.</p>
+          <Button asChild>
+            <Link href="/fundraisers">View All Fundraisers</Link>
           </Button>
         </div>
       </div>
     );
   }
-
-  const { user, donations, teams } = data.data;
-  const isOwner = authData?.user?.id === user.id;
   
-  // Calculate days fundraising
-  const daysFundraising = Math.ceil(
-    (new Date().getTime() - new Date(user.createdAt).getTime()) / (1000 * 3600 * 24)
-  );
-
+  const { user, donations, teams } = fundraiser;
+  
   return (
-    <div className="container mx-auto py-8 px-4">
-      {/* Back button */}
-      <Button 
-        variant="outline" 
-        className="mb-6" 
-        onClick={() => setLocation("/fundraisers")}
-      >
-        <ArrowLeft className="mr-2 h-4 w-4" /> Back to Fundraisers
-      </Button>
-      
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left column - Fundraiser info */}
-        <div className="lg:col-span-2 space-y-6">
-          <Card className="overflow-hidden border-none shadow-md bg-white">
-            <div className="bg-gradient-to-r from-purple-600 to-pink-500 h-32 flex items-center px-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-white">
-                {user.firstName} {user.lastName}'s Fundraiser
-              </h1>
+    <div className="container mx-auto py-8">
+      {/* Fundraiser Hero Section */}
+      <div className="mb-8 rounded-lg bg-muted/50 p-6 md:p-8">
+        <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
+          <div>
+            <h1 className="mb-3 text-3xl font-bold md:text-4xl">{user.firstName} {user.lastName}</h1>
+            <p className="mb-4 text-muted-foreground">{user.bio || 'No bio available'}</p>
+            
+            <div className="mb-4 flex flex-wrap gap-2">
+              {user.badges.map((badge, index) => (
+                <Badge key={index} variant="secondary" className="capitalize">{badge}</Badge>
+              ))}
             </div>
             
-            <div className="flex flex-col sm:flex-row p-6 gap-6">
-              <div className="sm:w-1/3 flex flex-col items-center">
-                <div className="w-32 h-32 rounded-full overflow-hidden mb-4 border-4 border-primary">
-                  <ImageWithFallback 
-                    src={user.profileImage} 
-                    alt={`${user.firstName} ${user.lastName}`} 
-                    fallback="/images/default-avatar.png"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                
-                <div className="mt-4 w-full">
-                  <Thermometer 
-                    current={user.raisedAmount} 
-                    goal={user.goalAmount}
-                    height="160px"
-                    animate={true}
-                    delay={500}
-                  />
-                  <div className="text-center mt-2">
-                    <div className="text-2xl font-bold text-primary">
-                      {formatCurrency(user.raisedAmount)}
-                    </div>
-                    <div className="text-sm text-muted-foreground">
-                      raised of {formatCurrency(user.goalAmount)} goal
-                    </div>
-                  </div>
-                </div>
-                
-                {isOwner && (
-                  <Button 
-                    className="w-full mt-4" 
-                    variant="outline"
-                    onClick={() => setLocation("/dashboard")}
-                  >
-                    <Edit className="mr-2 h-4 w-4" /> Edit Fundraiser
-                  </Button>
-                )}
+            <div className="mb-6">
+              <div className="mb-2 flex items-center justify-between">
+                <div><span ref={raisedAmountRef} className="text-xl font-bold">${user.raisedAmount}</span> raised of <span ref={goalAmountRef}>${user.goalAmount}</span> goal</div>
+                <div><span ref={progressRef} className="font-medium">{user.progress}</span>%</div>
               </div>
-
-              <div className="sm:w-2/3">
-                <h2 className="text-xl font-semibold mb-3">{user.firstName}'s Story</h2>
-                <p className="text-muted-foreground mb-4">
-                  {user.bio || "Help me support Walk for Friendship! Your donation makes a meaningful difference in our community, bringing joy and friendship to the lives of children with special needs."}
-                </p>
-                
-                <div className="grid grid-cols-2 gap-4 mt-6">
-                  <Card className="bg-purple-50 border-none">
-                    <CardContent className="p-4 flex items-center">
-                      <Heart className="h-6 w-6 text-primary mr-2" />
-                      <div>
-                        <div className="text-lg font-bold">{donations.length}</div>
-                        <div className="text-xs text-muted-foreground">Donations</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-pink-50 border-none">
-                    <CardContent className="p-4 flex items-center">
-                      <Users className="h-6 w-6 text-pink-500 mr-2" />
-                      <div>
-                        <div className="text-lg font-bold">{teams.length}</div>
-                        <div className="text-xs text-muted-foreground">Teams</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-purple-50 border-none">
-                    <CardContent className="p-4 flex items-center">
-                      <Calendar className="h-6 w-6 text-primary mr-2" />
-                      <div>
-                        <div className="text-lg font-bold">{daysFundraising}</div>
-                        <div className="text-xs text-muted-foreground">Days Fundraising</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                  
-                  <Card className="bg-pink-50 border-none">
-                    <CardContent className="p-4 flex items-center">
-                      <Award className="h-6 w-6 text-pink-500 mr-2" />
-                      <div>
-                        <div className="text-lg font-bold">{user.badges?.length || 0}</div>
-                        <div className="text-xs text-muted-foreground">Badges Earned</div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </div>
-              </div>
+              <Progress value={user.progress} className="h-2.5" />
             </div>
-          </Card>
-          
-          <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="w-full">
-              <TabsTrigger value="details" className="flex-1">Details</TabsTrigger>
-              <TabsTrigger value="donations" className="flex-1">Donations</TabsTrigger>
-              <TabsTrigger value="teams" className="flex-1">Teams</TabsTrigger>
-              <TabsTrigger value="badges" className="flex-1">Badges</TabsTrigger>
-            </TabsList>
             
-            <TabsContent value="details" className="pt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>About {user.firstName}</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-muted-foreground mb-6">
-                    {user.bio || `${user.firstName} is raising funds to support Walk for Friendship, helping to create meaningful connections for children with special needs.`}
-                  </p>
-                  
-                  <h3 className="font-semibold text-lg mb-3">Fundraising Stats</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-                    <div className="p-4 bg-purple-50 rounded-lg">
-                      <div className="text-muted-foreground text-sm">Total Raised</div>
-                      <div className="text-xl font-bold text-primary">{formatCurrency(user.raisedAmount)}</div>
-                    </div>
-                    <div className="p-4 bg-pink-50 rounded-lg">
-                      <div className="text-muted-foreground text-sm">Goal</div>
-                      <div className="text-xl font-bold text-pink-500">{formatCurrency(user.goalAmount)}</div>
-                    </div>
-                    <div className="p-4 bg-purple-50 rounded-lg">
-                      <div className="text-muted-foreground text-sm">Days Fundraising</div>
-                      <div className="text-xl font-bold text-primary">{daysFundraising}</div>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="donations" className="pt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Recent Donations</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <DonationList donations={donations} />
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="teams" className="pt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>{user.firstName}'s Teams</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {teams.length > 0 ? (
-                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-                      {teams.map(team => (
-                        <Card key={team.id} className="overflow-hidden hover:shadow-lg transition-shadow">
-                          <div className="h-40 overflow-hidden">
-                            <ImageWithFallback 
-                              src={team.teamImage}
-                              fallback="/images/team-default.jpg"
-                              alt={team.name}
-                              className="w-full h-full object-cover"
-                            />
-                          </div>
-                          <CardContent className="p-4">
-                            <h3 className="font-semibold truncate">{team.name}</h3>
-                            <Button 
-                              variant="outline" 
-                              size="sm" 
-                              className="w-full mt-2"
-                              onClick={() => setLocation(`/teams/${team.id}`)}
-                            >
-                              View Team
-                            </Button>
-                          </CardContent>
-                        </Card>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="text-center p-6">
-                      <p className="text-muted-foreground mb-4">{user.firstName} hasn't joined any teams yet.</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-            
-            <TabsContent value="badges" className="pt-6">
-              <Card>
-                <CardHeader>
-                  <CardTitle>Badges & Achievements</CardTitle>
-                  <CardDescription>Badges earned through fundraising milestones and participation</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  {user.badges && user.badges.length > 0 ? (
-                    <BadgeDisplay badges={user.badges} />
-                  ) : (
-                    <div className="text-center p-6">
-                      <p className="text-muted-foreground mb-4">No badges earned yet.</p>
-                      <p className="text-sm">Badges are earned by reaching fundraising milestones and participating in the event.</p>
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            </TabsContent>
-          </Tabs>
+            <div className="flex flex-wrap gap-2">
+              <Button asChild>
+                <Link href={`/donate?user=${user.id}`}>Donate to {user.firstName}</Link>
+              </Button>
+            </div>
+          </div>
+          <div className="flex items-center justify-center">
+            <Avatar className="h-40 w-40">
+              <AvatarImage src={user.profileImage || undefined} />
+              <AvatarFallback className="text-4xl">
+                {user.firstName.charAt(0) + user.lastName.charAt(0)}
+              </AvatarFallback>
+            </Avatar>
+          </div>
         </div>
+      </div>
+      
+      {/* Fundraiser Content Tabs */}
+      <Tabs defaultValue="teams" className="mb-8">
+        <TabsList className="mb-4">
+          <TabsTrigger value="teams">Teams</TabsTrigger>
+          <TabsTrigger value="donations">Recent Donations</TabsTrigger>
+          <TabsTrigger value="donate">Donate</TabsTrigger>
+        </TabsList>
         
-        {/* Right column - Donation form and recent activity */}
-        <div className="space-y-6">
-          <Card className="border-none shadow-md bg-gradient-to-br from-purple-50 to-pink-50">
-            <CardHeader className="pb-2">
-              <CardTitle>Support {user.firstName}</CardTitle>
-              <CardDescription>Your donation makes a difference!</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <DonationForm userId={user.id} />
-            </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Latest Activity</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {donations.slice(0, 5).map(donation => (
-                  <div key={donation.id} className="flex items-start space-x-3">
-                    <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center">
-                      <Heart className="h-5 w-5 text-primary" />
+        {/* Teams Tab */}
+        <TabsContent value="teams">
+          {teams.length > 0 ? (
+            <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+              {teams.map((team) => (
+                <Card key={team.id}>
+                  <CardHeader className="p-4">
+                    <div className="flex items-center gap-4">
+                      <div className="h-12 w-12 overflow-hidden rounded">
+                        {team.teamImage ? (
+                          <img src={team.teamImage} alt={team.name} className="h-full w-full object-cover" />
+                        ) : (
+                          <div className="flex h-full w-full items-center justify-center bg-muted">
+                            <span className="text-xs font-medium text-muted-foreground">{team.name.substring(0, 3).toUpperCase()}</span>
+                          </div>
+                        )}
+                      </div>
+                      <div>
+                        <Link href={`/teams/${team.id}`}>
+                          <CardTitle className="text-base hover:underline">{team.name}</CardTitle>
+                        </Link>
+                      </div>
                     </div>
-                    <div>
-                      <p className="font-medium">
-                        {donation.isAnonymous ? "Anonymous" : donation.donorName}
-                      </p>
-                      <p className="text-sm text-muted-foreground">
-                        Donated {formatCurrency(donation.amount)}
-                      </p>
-                      {donation.message && (
-                        <p className="text-sm italic mt-1">"{donation.message}"</p>
-                      )}
+                  </CardHeader>
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-lg border-2 border-dashed p-8 text-center">
+              <h3 className="mb-2 text-xl font-semibold">Not a member of any team</h3>
+              <p className="mb-4 text-muted-foreground">{user.firstName} hasn't joined any teams yet.</p>
+              <Button asChild>
+                <Link href="/teams">View Teams</Link>
+              </Button>
+            </div>
+          )}
+        </TabsContent>
+        
+        {/* Donations Tab */}
+        <TabsContent value="donations">
+          {donations.length > 0 ? (
+            <div className="space-y-4">
+              {donations.map((donation) => (
+                <Card key={donation.id}>
+                  <CardHeader className="p-4 pb-2">
+                    <div className="flex justify-between">
+                      <CardTitle className="text-lg">
+                        {donation.isAnonymous ? 'Anonymous' : donation.donorName}
+                      </CardTitle>
+                      <span className="text-lg font-bold">{formatCurrency(donation.amount)}</span>
                     </div>
-                  </div>
-                ))}
-                
-                {donations.length === 0 && (
-                  <p className="text-center text-muted-foreground py-4">
-                    No donations yet. Be the first to donate!
-                  </p>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                    <CardDescription>
+                      {new Date(donation.createdAt).toLocaleDateString()}
+                    </CardDescription>
+                  </CardHeader>
+                  {donation.message && (
+                    <CardContent className="p-4 pt-0">
+                      <p className="italic text-muted-foreground">"{donation.message}"</p>
+                    </CardContent>
+                  )}
+                </Card>
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-lg border-2 border-dashed p-8 text-center">
+              <h3 className="mb-2 text-xl font-semibold">No donations yet</h3>
+              <p className="mb-4 text-muted-foreground">Be the first to support {user.firstName}!</p>
+              <Button asChild>
+                <Link href={`/donate?user=${user.id}`}>Donate Now</Link>
+              </Button>
+            </div>
+          )}
+        </TabsContent>
+        
+        {/* Donate Tab */}
+        <TabsContent value="donate">
+          <div className="mx-auto max-w-xl rounded-lg border p-6">
+            <h2 className="mb-4 text-2xl font-bold">Support {user.firstName} {user.lastName}</h2>
+            <Separator className="mb-6" />
+            <DonationForm entityType="user" entityId={user.id} defaultAmount={50} />
+          </div>
+        </TabsContent>
+      </Tabs>
+      
+      {/* Share Section */}
+      <div className="mb-8 rounded-lg border p-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h3 className="text-xl font-bold">Share this fundraiser page</h3>
+            <p className="text-muted-foreground">Help {user.firstName} reach their fundraising goal!</p>
+          </div>
+          <Button variant="outline" onClick={() => navigator.clipboard.writeText(window.location.href)}>
+            Copy Link
+          </Button>
         </div>
       </div>
     </div>

@@ -224,20 +224,74 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/teams/:id", async (req, res) => {
     try {
       const teamId = parseInt(req.params.id);
-      const team = await storage.getTeam(teamId);
       
+      // Get the team
+      const team = await storage.getTeam(teamId);
       if (!team) {
         return res.status(404).json({ message: "Team not found" });
       }
       
+      // Get the captain
+      const captain = team.captainId ? await storage.getUser(team.captainId) : null;
+      
       // Get team members with user details
-      const members = await storage.getTeamMembers(teamId);
+      const teamMembers = await storage.getTeamMembers(teamId);
       
       // Get team donations
       const donations = await storage.getTeamDonations(teamId);
+      const filteredDonations = donations.filter(donation => 
+        donation.paymentStatus === "completed"
+      ).map(donation => ({
+        id: donation.id,
+        amount: donation.amount,
+        donorName: donation.isAnonymous ? "Anonymous" : donation.donorName,
+        message: donation.message,
+        isAnonymous: donation.isAnonymous,
+        createdAt: donation.createdAt
+      }));
       
-      res.json({ team, members, donations });
+      // Format captain name
+      const captainName = captain ? `${captain.firstName} ${captain.lastName}` : "Unknown";
+      
+      // Calculate progress percentage
+      const progress = team.goalAmount > 0 ? Math.min(100, (team.raisedAmount / team.goalAmount) * 100) : 0;
+      
+      // Format members with their fundraising stats
+      const members = await Promise.all(teamMembers.map(async (member) => {
+        // Get user's donations
+        const userDonations = storage.getActiveDonationsForUser(member.user.id);
+        const raisedAmount = userDonations.reduce((sum, donation) => sum + donation.amount, 0);
+        
+        return {
+          id: member.user.id,
+          firstName: member.user.firstName,
+          lastName: member.user.lastName,
+          profileImage: member.user.profileImage,
+          raisedAmount: raisedAmount,
+          joinedAt: member.joinedAt
+        };
+      }));
+      
+      // Construct response
+      const teamData = {
+        id: team.id,
+        name: team.name,
+        description: team.description,
+        goalAmount: team.goalAmount,
+        raisedAmount: team.raisedAmount,
+        progress: progress,
+        teamImage: team.teamImage,
+        captainId: team.captainId,
+        captainName: captainName,
+        membersCount: members.length,
+        members: members,
+        donations: filteredDonations,
+        createdAt: team.createdAt
+      };
+      
+      res.json({ team: teamData });
     } catch (error) {
+      console.error("Error getting team:", error);
       res.status(500).json({ message: "Server error" });
     }
   });
@@ -375,31 +429,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertDonationSchema.parse(req.body);
       
-      // Create payment intent with Stripe
-      const paymentIntent = await stripe.paymentIntents.create({
-        amount: Math.round(validatedData.amount * 100), // Convert to cents
-        currency: "usd",
-        receipt_email: validatedData.donorEmail,
-        metadata: {
-          donorName: validatedData.donorName,
-          teamId: validatedData.teamId?.toString() || "",
-          userId: validatedData.userId?.toString() || "",
-          isAnonymous: validatedData.isAnonymous ? "true" : "false",
-          isInHonorOf: validatedData.isInHonorOf ? "true" : "false",
-          honoreeInfo: validatedData.honoreeInfo || ""
-        }
-      });
+      // For demo purposes, skip actual payment processing
+      // In a production app, you would integrate with Stripe or another payment processor
       
-      // Create donation in pending status
+      // Create donation with "completed" status directly
       const donation = await storage.createDonation({
         ...validatedData,
-        stripePaymentId: paymentIntent.id,
-        paymentStatus: "pending"
+        stripePaymentId: `demo-${Date.now()}-${Math.round(Math.random() * 10000)}`,
+        paymentStatus: "completed"
       });
       
       res.status(201).json({ 
         donation,
-        clientSecret: paymentIntent.client_secret
+        success: true
       });
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -462,6 +504,132 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (error instanceof z.ZodError) {
         return res.status(400).json({ message: "Validation error", errors: error.errors });
       }
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  // Fundraisers route - get all fundraisers
+  app.get("/api/fundraisers", async (req, res) => {
+    try {
+      // Get all users
+      const allUsers = await storage.getUsers();
+      
+      // Format users as fundraisers with relevant data
+      const fundraisers = allUsers
+        .filter(user => !user.isAdmin) // Filter out admin users
+        .map(user => {
+          // Get user donations
+          const userDonations = storage.getActiveDonationsForUser(user.id);
+          
+          // Calculate total raised
+          const raisedAmount = userDonations.reduce((sum, donation) => sum + donation.amount, 0);
+          
+          // Set default goal amount
+          const goalAmount = 1000;
+          
+          // Add badges based on achievements (simplified version)
+          const badges = [];
+          if (raisedAmount > 0) badges.push("donor");
+          if (raisedAmount >= 100) badges.push("fundraiser");
+          if (raisedAmount >= 500) badges.push("champion");
+          if (raisedAmount >= 1000) badges.push("hero");
+          
+          return {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            username: user.username,
+            profileImage: user.profileImage,
+            bio: user.bio,
+            raisedAmount,
+            goalAmount,
+            badges
+          };
+        });
+      
+      res.json({ fundraisers });
+    } catch (error) {
+      console.error("Error getting fundraisers:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  // Get individual fundraiser profile
+  app.get("/api/fundraisers/:id", async (req, res) => {
+    try {
+      const userId = parseInt(req.params.id);
+      
+      // Get the user
+      const user = await storage.getUser(userId);
+      if (!user) {
+        return res.status(404).json({ message: "Fundraiser not found" });
+      }
+      
+      // Don't expose admin accounts as fundraisers
+      if (user.isAdmin) {
+        return res.status(404).json({ message: "Fundraiser not found" });
+      }
+      
+      // Get all user donations
+      const userDonations = storage.getActiveDonationsForUser(userId);
+      
+      // Calculate total raised
+      const raisedAmount = userDonations.reduce((sum, donation) => sum + donation.amount, 0);
+      
+      // Set default goal amount
+      const goalAmount = 1000;
+      
+      // Add badges based on achievements
+      const badges = [];
+      if (raisedAmount > 0) badges.push("donor");
+      if (raisedAmount >= 100) badges.push("fundraiser");
+      if (raisedAmount >= 500) badges.push("champion");
+      if (raisedAmount >= 1000) badges.push("hero");
+      
+      // Get teams the user is a member of
+      const userTeams = await storage.getUserTeams(userId);
+      const teamsList = userTeams.map(membership => ({
+        id: membership.team.id,
+        name: membership.team.name,
+        teamImage: membership.team.teamImage
+      }));
+      
+      // Format donations for display
+      const donations = userDonations.map(donation => ({
+        id: donation.id,
+        amount: donation.amount,
+        donorName: donation.isAnonymous ? "Anonymous" : donation.donorName,
+        message: donation.message,
+        isAnonymous: donation.isAnonymous,
+        createdAt: donation.createdAt
+      }));
+      
+      // Calculate progress percentage
+      const progress = goalAmount > 0 ? Math.min(100, (raisedAmount / goalAmount) * 100) : 0;
+      
+      // Construct response
+      const fundraiserData = {
+        user: {
+          id: user.id,
+          firstName: user.firstName,
+          lastName: user.lastName,
+          username: user.username,
+          email: user.email,
+          profileImage: user.profileImage,
+          bio: user.bio,
+          goalAmount,
+          raisedAmount,
+          progress,
+          badges,
+          createdAt: new Date(Date.now() - Math.floor(Math.random() * 90) * 24 * 60 * 60 * 1000) // Random date in past 90 days
+        },
+        donations,
+        teams: teamsList
+      };
+      
+      res.json({ data: fundraiserData });
+    } catch (error) {
+      console.error("Error getting fundraiser profile:", error);
       res.status(500).json({ message: "Server error" });
     }
   });

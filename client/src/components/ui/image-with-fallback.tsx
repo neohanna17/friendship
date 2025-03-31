@@ -1,34 +1,32 @@
 import { useState } from 'react';
 
 interface ImageWithFallbackProps {
-  src: string;
+  src: string | null;
   fallback: string;
   alt: string;
   className?: string;
 }
 
-const ImageWithFallback = ({ 
-  src, 
-  fallback, 
+const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
+  src,
+  fallback,
   alt,
-  className 
-}: ImageWithFallbackProps) => {
-  const [imgSrc, setImgSrc] = useState(src);
-  const [hasError, setHasError] = useState(false);
-
+  className,
+  ...props
+}) => {
+  const [error, setError] = useState(false);
+  
   const handleError = () => {
-    if (!hasError) {
-      setImgSrc(fallback);
-      setHasError(true);
-    }
+    setError(true);
   };
-
+  
   return (
     <img
-      src={imgSrc || fallback}
+      src={(!src || error) ? fallback : src}
       alt={alt}
       onError={handleError}
       className={className}
+      {...props}
     />
   );
 };

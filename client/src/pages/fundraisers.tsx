@@ -127,7 +127,7 @@ export default function Fundraisers() {
                   <div className="w-16 h-16 rounded-full overflow-hidden border-2 border-white">
                     <ImageWithFallback
                       src={user.profileImage}
-                      fallback="/images/default-avatar.png"
+                      fallback="/images/default-avatar.jpg"
                       alt={`${user.firstName} ${user.lastName}`}
                       className="w-full h-full object-cover"
                     />

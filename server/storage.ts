@@ -11,11 +11,13 @@ import {
 export interface IStorage {
   // User methods
   getUser(id: number): Promise<User | undefined>;
+  getUsers(): Promise<User[]>;
   getUserByUsername(username: string): Promise<User | undefined>;
   getUserByEmail(email: string): Promise<User | undefined>;
   createUser(user: InsertUser): Promise<User>;
   updateUser(id: number, userData: Partial<User>): Promise<User | undefined>;
   updateStripeCustomerId(id: number, stripeCustomerId: string): Promise<User | undefined>;
+  getActiveDonationsForUser(userId: number): Donation[];
   
   // Team methods
   getTeams(): Promise<Team[]>;
@@ -412,6 +414,10 @@ export class MemStorage implements IStorage {
   async getUser(id: number): Promise<User | undefined> {
     return this.users.get(id);
   }
+  
+  async getUsers(): Promise<User[]> {
+    return Array.from(this.users.values());
+  }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
     return Array.from(this.users.values()).find(
@@ -585,6 +591,12 @@ export class MemStorage implements IStorage {
   async getUserDonations(userId: number): Promise<Donation[]> {
     return Array.from(this.donations.values()).filter(
       (donation) => donation.userId === userId
+    );
+  }
+  
+  getActiveDonationsForUser(userId: number): Donation[] {
+    return Array.from(this.donations.values()).filter(
+      (donation) => donation.userId === userId && donation.paymentStatus === "completed"
     );
   }
   

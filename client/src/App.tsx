@@ -3,9 +3,10 @@ import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import Home from "@/pages/home";
 import Teams from "@/pages/teams";
-import Guide from "@/pages/guide";
-import TeamProfile from "@/pages/team-profile";
+import Fundraisers from "@/pages/fundraisers";
 import FundraiserProfile from "@/pages/fundraiser-profile";
+import TeamProfile from "@/pages/team-profile";
+import Guide from "@/pages/guide";
 import Dashboard from "@/pages/dashboard";
 import Incentives from "@/pages/incentives";
 import NotFound from "@/pages/not-found";
@@ -25,9 +26,10 @@ export default function App() {
           <Switch>
             <Route path="/" component={Home} />
             <Route path="/teams" component={Teams} />
+            <Route path="/teams/:id" component={TeamProfile} />
+            <Route path="/fundraisers" component={Fundraisers} />
+            <Route path="/fundraisers/:id" component={FundraiserProfile} />
             <Route path="/guide" component={Guide} />
-            <Route path="/team/:id" component={TeamProfile} />
-            <Route path="/fundraiser/:id" component={FundraiserProfile} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/incentives" component={Incentives} />
             <Route path="/about" component={AboutPage} />
