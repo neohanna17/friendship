@@ -202,6 +202,62 @@ const Donate = () => {
                     <TabsTrigger value="team">Donate to a Team</TabsTrigger>
                     <TabsTrigger value="individual">Donate to an Individual</TabsTrigger>
                   </TabsList>
+                  
+                  {/* Search bar for teams and individuals */}
+                  {(donationType === "team" || donationType === "individual") && (
+                    <div className="mt-4 relative">
+                      <div className="relative">
+                        <input
+                          type="text"
+                          className="w-full py-2 px-4 pr-10 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary"
+                          placeholder={`Search for a ${donationType === "team" ? "team" : "fundraiser"}...`}
+                        />
+                        <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400">
+                          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                          </svg>
+                        </span>
+                      </div>
+                      
+                      {donationType === "team" && (
+                        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition flex items-center gap-3">
+                            <img src="/images/team-image.jpeg" alt="Team Sunshine" className="w-12 h-12 rounded-full object-cover" />
+                            <div>
+                              <div className="font-medium">Team Sunshine</div>
+                              <div className="text-xs text-gray-500">$12,450 raised</div>
+                            </div>
+                          </div>
+                          <div className="p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition flex items-center gap-3">
+                            <img src="/images/team-image.jpeg" alt="Friendship Force" className="w-12 h-12 rounded-full object-cover" />
+                            <div>
+                              <div className="font-medium">Friendship Force</div>
+                              <div className="text-xs text-gray-500">$8,975 raised</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                      
+                      {donationType === "individual" && (
+                        <div className="mt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition flex items-center gap-3">
+                            <img src="/images/default-avatar.png" alt="Rachel Stevens" className="w-12 h-12 rounded-full object-cover" />
+                            <div>
+                              <div className="font-medium">Rachel Stevens</div>
+                              <div className="text-xs text-gray-500">$3,245 raised</div>
+                            </div>
+                          </div>
+                          <div className="p-3 border border-gray-200 rounded-lg cursor-pointer hover:bg-gray-50 transition flex items-center gap-3">
+                            <img src="/images/default-avatar.png" alt="Michael Johnson" className="w-12 h-12 rounded-full object-cover" />
+                            <div>
+                              <div className="font-medium">Michael Johnson</div>
+                              <div className="text-xs text-gray-500">$2,750 raised</div>
+                            </div>
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </Tabs>
               )}
               

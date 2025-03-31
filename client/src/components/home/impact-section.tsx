@@ -14,11 +14,11 @@ const ImpactSection = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <Card className="overflow-hidden shadow-md border-none">
-            <div className="relative h-72 overflow-hidden">
+            <div className="relative h-64 overflow-hidden">
               <img 
                 src="/images/community-support.jpeg" 
                 alt="Community support" 
-                className="w-full h-full object-cover object-top"
+                className="w-full h-full object-cover object-center"
               />
             </div>
             <CardContent className="p-6">
@@ -41,11 +41,11 @@ const ImpactSection = () => {
           </Card>
           
           <Card className="overflow-hidden shadow-md border-none">
-            <div className="relative h-64">
+            <div className="relative h-64 overflow-hidden">
               <img 
                 src="/images/jump.jpg" 
                 alt="Child jumping with confidence" 
-                className="w-full h-full object-cover"
+                className="w-full h-full object-cover object-center"
               />
             </div>
             <CardContent className="p-6">

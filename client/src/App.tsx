@@ -15,6 +15,7 @@ import Footer from "@/components/layout/footer";
 import AboutPage from "@/pages/about";
 import Register from "@/pages/register";
 import Donate from "@/pages/donate";
+import VolunteerPage from "@/pages/volunteer";
 import { queryClient } from "@/lib/queryClient";
 
 export default function App() {
@@ -35,6 +36,7 @@ export default function App() {
             <Route path="/about" component={AboutPage} />
             <Route path="/register" component={Register} />
             <Route path="/donate" component={Donate} />
+            <Route path="/volunteer" component={VolunteerPage} />
             <Route component={NotFound} />
           </Switch>
         </main>

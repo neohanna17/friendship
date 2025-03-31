@@ -634,6 +634,77 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
   
+  // Top fundraisers - get top fundraisers by amount raised
+  app.get("/api/top-fundraisers", async (req, res) => {
+    try {
+      // Get all users
+      const allUsers = await storage.getUsers();
+      
+      // Calculate raised amount for each user
+      const fundraisers = allUsers
+        .filter(user => !user.isAdmin) // Filter out admin users
+        .map(user => {
+          // Get user donations
+          const userDonations = storage.getActiveDonationsForUser(user.id);
+          
+          // Calculate total raised
+          const raisedAmount = userDonations.reduce((sum, donation) => sum + donation.amount, 0);
+          
+          return {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            profileImage: user.profileImage,
+            raisedAmount,
+            goalAmount: 1000,
+          };
+        })
+        .sort((a, b) => b.raisedAmount - a.raisedAmount) // Sort by amount raised
+        .slice(0, 10); // Get top 10
+      
+      res.json({ fundraisers });
+    } catch (error) {
+      console.error("Error getting top fundraisers:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
+  // Top donors - get top donors by amount donated
+  app.get("/api/top-donors", async (req, res) => {
+    try {
+      // Get all donations
+      const allDonations = await storage.getDonations();
+      
+      // Group donations by donor and calculate total
+      const donorMap = new Map();
+      
+      allDonations.forEach(donation => {
+        if (donation.paymentStatus === 'completed') {
+          const key = donation.isAnonymous ? `anonymous-${donation.id}` : donation.donorName;
+          const current = donorMap.get(key) || {
+            id: donation.id,
+            name: donation.isAnonymous ? 'Anonymous' : donation.donorName,
+            amount: 0,
+            isAnonymous: donation.isAnonymous
+          };
+          
+          current.amount += donation.amount;
+          donorMap.set(key, current);
+        }
+      });
+      
+      // Convert to array and sort
+      const donors = Array.from(donorMap.values())
+        .sort((a, b) => b.amount - a.amount)
+        .slice(0, 10); // Get top 10
+      
+      res.json({ donors });
+    } catch (error) {
+      console.error("Error getting top donors:", error);
+      res.status(500).json({ message: "Server error" });
+    }
+  });
+  
   // Event settings and stats
   app.get("/api/event", async (req, res) => {
     try {
