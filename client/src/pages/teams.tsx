@@ -25,7 +25,7 @@ const Teams = () => {
   const [sortBy, setSortBy] = useState<"raised" | "alphabetical">("raised");
   const { toast } = useToast();
   
-  const { data, isLoading, error } = useQuery<{ teams: Team[] }>({
+  const { data, isLoading, error } = useQuery<any>({
     queryKey: ['/api/teams'],
   });
   
@@ -44,12 +44,14 @@ const Teams = () => {
     console.log("Teams data:", data);
   }, [data]);
   
-  // Filter and sort teams based on search query and sort option
-  const filteredTeams = data?.teams?.filter(team => 
-    team?.name.toLowerCase().includes(searchQuery.toLowerCase())
-  ) || [];
+  const teams = data?.teams || [];
   
-  const sortedTeams = [...filteredTeams].sort((a, b) => {
+  // Filter and sort teams based on search query and sort option
+  const filteredTeams = teams.filter((team: Team) => 
+    team.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+  
+  const sortedTeams = [...filteredTeams].sort((a: Team, b: Team) => {
     if (sortBy === "raised") {
       return b.raisedAmount - a.raisedAmount;
     }

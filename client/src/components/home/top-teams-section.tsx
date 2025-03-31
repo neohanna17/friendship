@@ -19,7 +19,7 @@ interface Team {
 
 const TopTeamsSection = () => {
   const { toast } = useToast();
-  const { data, isLoading, error } = useQuery<{ teams: Team[] }>({
+  const { data, isLoading, error } = useQuery<any>({
     queryKey: ['/api/teams/top'],
   });
   
@@ -37,6 +37,8 @@ const TopTeamsSection = () => {
   useEffect(() => {
     console.log("Top teams data:", data);
   }, [data]);
+  
+  const teams = data?.teams || [];
   
   return (
     <section className="py-16 bg-white">
@@ -66,7 +68,7 @@ const TopTeamsSection = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {data?.teams.map((team, index) => (
+            {teams.map((team: Team, index: number) => (
               <TeamCard 
                 key={team.id}
                 team={team}

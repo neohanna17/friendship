@@ -1,4 +1,4 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Switch, Route } from "wouter";
 import { Toaster } from "@/components/ui/toaster";
 import Home from "@/pages/home";
@@ -11,9 +11,10 @@ import Incentives from "@/pages/incentives";
 import NotFound from "@/pages/not-found";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import AboutPage from "@/pages/about"; // Import the AboutPage component
-
-const queryClient = new QueryClient();
+import AboutPage from "@/pages/about";
+import Register from "@/pages/register";
+import Donate from "@/pages/donate";
+import { queryClient } from "@/lib/queryClient";
 
 export default function App() {
   return (
@@ -29,7 +30,9 @@ export default function App() {
             <Route path="/fundraiser/:id" component={FundraiserProfile} />
             <Route path="/dashboard" component={Dashboard} />
             <Route path="/incentives" component={Incentives} />
-            <Route path="/about" component={AboutPage} /> {/* Added About route */}
+            <Route path="/about" component={AboutPage} />
+            <Route path="/register" component={Register} />
+            <Route path="/donate" component={Donate} />
             <Route component={NotFound} />
           </Switch>
         </main>

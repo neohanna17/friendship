@@ -1,3 +1,9 @@
+/* 
+ * LEGACY APP FILE - KEPT FOR REFERENCE
+ * This file is not currently in use.
+ * The active app component is in App.tsx (uppercase)
+ */
+
 import { Routes, Route } from "react-router-dom";
 import { Layout } from "@/components/layout";
 import { HomePage } from "@/pages/home";
@@ -11,7 +17,7 @@ import { SponsorsPage } from "@/pages/sponsors";
 import { GuidePage } from "@/pages/guide";
 import { NotFound } from "@/pages/not-found";
 
-function App() {
+function AppLegacy() {
   return (
     <Layout>
       <Routes>
@@ -30,4 +36,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppLegacy;
