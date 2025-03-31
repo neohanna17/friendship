@@ -104,11 +104,11 @@ export default function FundraiserProfile() {
   return (
     <div className="container mx-auto py-8">
       {/* Fundraiser Hero Section */}
-      <div className="mb-8 rounded-lg bg-muted/50 p-6 md:p-8">
+      <div className="mb-8 rounded-lg bg-blue-50 p-6 md:p-8">
         <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="mb-3 text-3xl font-bold md:text-4xl">{user.firstName} {user.lastName}</h1>
-            <p className="mb-4 text-muted-foreground">{user.bio || 'No bio available'}</p>
+            <p className="mb-4 text-gray-600">{user.bio || 'No bio available'}</p>
             
             <div className="mb-4 flex flex-wrap gap-2">
               {user.badges.map((badge, index) => (
@@ -125,15 +125,15 @@ export default function FundraiserProfile() {
             </div>
             
             <div className="flex flex-wrap gap-2">
-              <Button asChild>
+              <Button asChild className="bg-primary hover:bg-primary/90">
                 <Link href={`/donate?user=${user.id}`}>Donate to {user.firstName}</Link>
               </Button>
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <Avatar className="h-40 w-40">
+            <Avatar className="h-40 w-40 border-4 border-white shadow-md">
               <AvatarImage src={user.profileImage || undefined} />
-              <AvatarFallback className="text-4xl">
+              <AvatarFallback className="text-4xl bg-primary text-white">
                 {user.firstName.charAt(0) + user.lastName.charAt(0)}
               </AvatarFallback>
             </Avatar>

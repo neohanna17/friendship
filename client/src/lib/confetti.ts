@@ -2,12 +2,12 @@
 let confettiIsShowing = false;
 
 /**
- * Utility function to create a gentle, short-lived celebratory confetti effect
- * @param duration Duration of the confetti animation in milliseconds (default: 2000ms)
- * @param count Number of confetti particles (default: 12)
- * @returns Boolean indicating if confetti was actually shown
+ * Utility function to create an extremely gentle, short-lived snowfall-like celebratory effect
+ * @param duration Duration of the animation in milliseconds (default: 1500ms)
+ * @param count Number of particles (default: 8)
+ * @returns Boolean indicating if the effect was actually shown
  */
-export function createConfetti(duration = 2000, count = 12): boolean {
+export function createConfetti(duration = 1500, count = 8): boolean {
   // Don't show confetti if it's already showing
   if (confettiIsShowing) {
     return false;
@@ -19,33 +19,33 @@ export function createConfetti(duration = 2000, count = 12): boolean {
   confettiContainer.className = 'confetti-overlay';
   document.body.appendChild(confettiContainer);
   
-  // Create confetti particles - fewer particles for gentler effect
+  // Create fewer particles for even gentler effect
   for (let i = 0; i < count; i++) {
     const confetti = document.createElement('div');
     confetti.className = 'confetti';
     
-    // Space particles evenly across the width with more randomness
-    confetti.style.left = `${Math.random() * 90 + 5}%`;
+    // Spread particles across top third of the screen width for a more focused effect
+    confetti.style.left = `${30 + Math.random() * 40}%`;
     
-    // Smaller particles for subtlety
-    const size = Math.random() * 4 + 2;
+    // Very small particles for extreme subtlety
+    const size = Math.random() * 3 + 2;
     confetti.style.width = `${size}px`;
     confetti.style.height = `${size}px`;
     
-    // Light blue colors like snowflakes
-    confetti.style.background = `hsl(${210 + Math.random() * 20}, ${50 + Math.random() * 20}%, ${85 + Math.random() * 10}%)`;
+    // Very light blue/white colors like subtle snowflakes
+    confetti.style.background = `hsl(${210 + Math.random() * 10}, ${30 + Math.random() * 20}%, ${90 + Math.random() * 10}%)`;
     
-    // Faster fall speed for shorter duration
-    confetti.style.animationDuration = `${Math.random() * 2 + 1}s`;
+    // Quicker fall speed for even shorter duration
+    confetti.style.animationDuration = `${Math.random() * 1.5 + 0.8}s`;
     
-    // Minimal delay for quick appearance
-    confetti.style.animationDelay = `${Math.random() * 0.5}s`;
+    // Minimally staggered appearance
+    confetti.style.animationDelay = `${Math.random() * 0.3}s`;
     
-    // Add subtle rotation
-    confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+    // Very minimal rotation
+    confetti.style.transform = `rotate(${Math.random() * 180}deg)`;
     
-    // Make some particles more transparent
-    confetti.style.opacity = `${Math.random() * 0.5 + 0.3}`;
+    // Very transparent particles
+    confetti.style.opacity = `${Math.random() * 0.3 + 0.2}`;
     
     confettiContainer.appendChild(confetti);
   }

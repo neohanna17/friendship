@@ -99,13 +99,13 @@ export default function TeamProfile() {
   return (
     <div className="container mx-auto py-8">
       {/* Team Hero Section */}
-      <div className="mb-8 rounded-lg bg-muted/50 p-6 md:p-8">
+      <div className="mb-8 rounded-lg bg-amber-50 p-6 md:p-8">
         <div className="grid gap-6 md:grid-cols-[2fr_1fr]">
           <div>
             <h1 className="mb-3 text-3xl font-bold md:text-4xl">{team.name}</h1>
-            <p className="mb-4 text-muted-foreground">{team.description || 'No description available'}</p>
-            <p className="mb-2">Captain: <span className="font-medium">{team.captainName}</span></p>
-            <p className="mb-4">Team Members: <span className="font-medium">{team.membersCount}</span></p>
+            <p className="mb-4 text-gray-600">{team.description || 'No description available'}</p>
+            <p className="mb-2 text-gray-700">Captain: <span className="font-medium text-gray-900">{team.captainName}</span></p>
+            <p className="mb-4 text-gray-700">Team Members: <span className="font-medium text-gray-900">{team.membersCount}</span></p>
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between">
                 <div><span ref={raisedAmountRef} className="text-xl font-bold">${team.raisedAmount}</span> raised of <span ref={goalAmountRef}>${team.goalAmount}</span> goal</div>
@@ -114,16 +114,16 @@ export default function TeamProfile() {
               <Progress value={team.progress} className="h-2.5" />
             </div>
             <div className="flex flex-wrap gap-2">
-              <Button asChild>
+              <Button asChild className="bg-primary hover:bg-primary/90">
                 <Link href={`/donate?team=${team.id}`}>Donate to Team</Link>
               </Button>
-              <Button variant="outline" asChild>
+              <Button variant="outline" className="border-primary text-primary hover:bg-primary/5" asChild>
                 <Link href={`/register?join=${team.id}`}>Join Team</Link>
               </Button>
             </div>
           </div>
           <div className="flex items-center justify-center">
-            <div className="overflow-hidden rounded-xl">
+            <div className="overflow-hidden rounded-xl border-4 border-white shadow-md">
               {team.teamImage ? (
                 <img 
                   src={team.teamImage} 
@@ -131,8 +131,8 @@ export default function TeamProfile() {
                   className="h-48 w-48 object-cover" 
                 />
               ) : (
-                <div className="flex h-48 w-48 items-center justify-center bg-muted">
-                  <span className="text-lg font-medium text-muted-foreground">{team.name.substring(0, 3).toUpperCase()}</span>
+                <div className="flex h-48 w-48 items-center justify-center bg-primary/10">
+                  <span className="text-lg font-bold text-primary">{team.name.substring(0, 3).toUpperCase()}</span>
                 </div>
               )}
             </div>

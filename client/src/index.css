@@ -158,10 +158,10 @@
     box-shadow: 0 4px 8px rgba(var(--primary), 0.4);
   }
   
-  /* Confetti overlay for celebrations */
+  /* Confetti overlay for celebrations - snowfall style */
   .confetti-overlay {
     position: fixed;
-    top: -50px; /* Starting closer to the top */
+    top: -30px; /* Starting even closer to the top */
     left: 0;
     width: 100%;
     height: 100%;
@@ -172,13 +172,13 @@
   
   .confetti {
     position: absolute;
-    width: 4px;
-    height: 4px;
-    background-color: #e0f2ff;
-    opacity: 0.6;
+    width: 3px; /* Smaller particles */
+    height: 3px;
+    background-color: #e8f5ff; /* Lighter blue color */
+    opacity: 0.4; /* More transparent */
     border-radius: 50%;
-    animation: confetti-fall 2s ease-in forwards; /* Shorter animation */
-    box-shadow: 0 0 2px rgba(255, 255, 255, 0.3); /* Subtle glow */
+    animation: confetti-fall 1.5s ease-in forwards; /* Even shorter animation */
+    box-shadow: 0 0 1px rgba(255, 255, 255, 0.2); /* More subtle glow */
   }
   
   @keyframes confetti-fall {
@@ -187,13 +187,13 @@
       opacity: 0.2;
     }
     20% {
-      opacity: 0.6;
+      opacity: 0.3;
     }
     80% {
-      opacity: 0.4;
+      opacity: 0.2;
     }
     100% {
-      transform: translateY(60vh) rotate(5deg); /* Only fall partway down the screen */
+      transform: translateY(40vh) rotate(3deg); /* Fall even less down the screen */
       opacity: 0;
     }
   }
