@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import TeamCard from "@/components/teams/team-card";
+import { useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 
 interface Team {
   id: number;
@@ -16,9 +18,25 @@ interface Team {
 }
 
 const TopTeamsSection = () => {
-  const { data, isLoading } = useQuery<{ teams: Team[] }>({
+  const { toast } = useToast();
+  const { data, isLoading, error } = useQuery<{ teams: Team[] }>({
     queryKey: ['/api/teams/top'],
   });
+  
+  useEffect(() => {
+    if (error) {
+      console.error("Error fetching top teams:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load top teams. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+  
+  useEffect(() => {
+    console.log("Top teams data:", data);
+  }, [data]);
   
   return (
     <section className="py-16 bg-white">

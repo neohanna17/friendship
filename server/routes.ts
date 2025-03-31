@@ -199,8 +199,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   app.get("/api/teams", async (req, res) => {
     try {
       const teams = await storage.getTeams();
+      console.log("GET /api/teams - Retrieved teams:", teams.length);
+      console.log("Teams sample:", teams.slice(0, 2));
       res.json({ teams });
     } catch (error) {
+      console.error("Error in GET /api/teams:", error);
       res.status(500).json({ message: "Server error" });
     }
   });
@@ -209,8 +212,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const limit = parseInt(req.query.limit as string) || 10;
       const teams = await storage.getTopTeams(limit);
+      console.log("GET /api/teams/top - Retrieved top teams:", teams.length);
+      console.log("Top teams sample:", teams.slice(0, 2));
       res.json({ teams });
     } catch (error) {
+      console.error("Error in GET /api/teams/top:", error);
       res.status(500).json({ message: "Server error" });
     }
   });

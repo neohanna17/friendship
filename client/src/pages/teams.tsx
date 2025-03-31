@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import TeamCard from "@/components/teams/team-card";
 import { Search } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useToast } from "@/hooks/use-toast";
 
 interface Team {
   id: number;
@@ -22,14 +23,30 @@ interface Team {
 const Teams = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"raised" | "alphabetical">("raised");
+  const { toast } = useToast();
   
-  const { data, isLoading } = useQuery<{ teams: Team[] }>({
+  const { data, isLoading, error } = useQuery<{ teams: Team[] }>({
     queryKey: ['/api/teams'],
   });
   
+  useEffect(() => {
+    if (error) {
+      console.error("Error fetching teams:", error);
+      toast({
+        title: "Error",
+        description: "Failed to load teams. Please try again later.",
+        variant: "destructive",
+      });
+    }
+  }, [error, toast]);
+  
+  useEffect(() => {
+    console.log("Teams data:", data);
+  }, [data]);
+  
   // Filter and sort teams based on search query and sort option
-  const filteredTeams = data?.teams.filter(team => 
-    team.name.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredTeams = data?.teams?.filter(team => 
+    team?.name.toLowerCase().includes(searchQuery.toLowerCase())
   ) || [];
   
   const sortedTeams = [...filteredTeams].sort((a, b) => {
