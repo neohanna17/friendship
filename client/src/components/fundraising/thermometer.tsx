@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, memo } from "react";
 import { calculateProgress } from "@/lib/utils";
 import { Star } from "lucide-react";
 import { createConfetti } from "@/lib/confetti";
@@ -12,11 +12,12 @@ interface ThermometerProps {
   showMilestones?: boolean;
 }
 
-const Thermometer = ({ 
+// Use memo to prevent unnecessary re-renders
+const Thermometer = memo(({ 
   current, 
   goal, 
   height = "h-6", 
-  animate = false, // Default to no animation to prevent glitching
+  animate = false, 
   delay = 300,
   showMilestones = true
 }: ThermometerProps) => {
@@ -25,68 +26,73 @@ const Thermometer = ({
   const [completedMilestones, setCompletedMilestones] = useState<number[]>([]);
   const [progressValue, setProgressValue] = useState(0);
   const [isInitialized, setIsInitialized] = useState(false);
-  const prevProgressRef = useRef<number>(0);
+  const prevCurrentRef = useRef<number>(current);
+  const prevGoalRef = useRef<number>(goal);
   
   // Define milestones at 25%, 50%, 75%, and 100%
   const milestones = [25, 50, 75, 100];
   
   // Initialize on mount
   useEffect(() => {
-    if (!isInitialized) {
-      const initialProgress = calculateProgress(current, goal);
-      setProgressValue(initialProgress);
-      prevProgressRef.current = initialProgress;
+    const initialProgress = calculateProgress(current, goal);
+    setProgressValue(initialProgress);
+    
+    // Determine which milestones have been completed
+    const completed = milestones.filter(milestone => initialProgress >= milestone);
+    setCompletedMilestones(completed);
+    
+    // Apply animation only on initial load if animate is true
+    if (animate && progressRef.current) {
+      progressRef.current.style.width = "0%";
       
-      // Determine which milestones have been completed
-      const completed = milestones.filter(milestone => initialProgress >= milestone);
-      setCompletedMilestones(completed);
+      const timeoutId = setTimeout(() => {
+        if (progressRef.current) {
+          progressRef.current.style.width = `${initialProgress}%`;
+        }
+      }, delay);
       
-      // Apply animation only on initial load if animate is true
-      if (animate && progressRef.current) {
-        progressRef.current.style.width = "0%";
-        
-        const timeoutId = setTimeout(() => {
-          if (progressRef.current) {
-            progressRef.current.style.width = `${initialProgress}%`;
-          }
-        }, delay);
-        
-        return () => clearTimeout(timeoutId);
-      } else if (progressRef.current) {
-        progressRef.current.style.width = `${initialProgress}%`;
-      }
-      
-      setIsInitialized(true);
+      return () => clearTimeout(timeoutId);
+    } else if (progressRef.current) {
+      progressRef.current.style.width = `${initialProgress}%`;
     }
-  }, []);
+    
+    setIsInitialized(true);
+    prevCurrentRef.current = current;
+    prevGoalRef.current = goal;
+  }, []); // Empty dependency array - only run on mount
   
   // Update progress value when props change, but don't animate
   useEffect(() => {
-    if (isInitialized) {
-      const newProgress = calculateProgress(current, goal);
-      
-      // Update completed milestones
-      const completed = milestones.filter(milestone => newProgress >= milestone);
-      
-      // Check if we just reached 100%
-      const reached100 = !completedMilestones.includes(100) && completed.includes(100);
-      
-      setProgressValue(newProgress);
-      setCompletedMilestones(completed);
-      
-      // Directly set the width without animation to prevent glitching
-      if (progressRef.current) {
-        progressRef.current.style.width = `${newProgress}%`;
-      }
-      
-      // Show confetti if we just reached 100%
-      if (reached100) {
-        createConfetti(5000, 20);
-      }
-      
-      prevProgressRef.current = newProgress;
+    // Skip the initial render and when the values haven't changed
+    if (!isInitialized || (current === prevCurrentRef.current && goal === prevGoalRef.current)) {
+      return;
     }
-  }, [current, goal, isInitialized]);
+    
+    const newProgress = calculateProgress(current, goal);
+    
+    // Update completed milestones
+    const completed = milestones.filter(milestone => newProgress >= milestone);
+    
+    // Check if we just reached 100%
+    const reached100 = !completedMilestones.includes(100) && completed.includes(100);
+    
+    setProgressValue(newProgress);
+    setCompletedMilestones(completed);
+    
+    // Directly set the width without animation to prevent glitching
+    if (progressRef.current) {
+      progressRef.current.style.width = `${newProgress}%`;
+    }
+    
+    // Show confetti if we just reached 100%
+    if (reached100) {
+      createConfetti();
+    }
+    
+    // Update refs for next comparison
+    prevCurrentRef.current = current;
+    prevGoalRef.current = goal;
+  }, [current, goal, isInitialized]); // Only update when these values change
   
   return (
     <div className="relative">
@@ -129,6 +135,8 @@ const Thermometer = ({
       )}
     </div>
   );
-};
+});
+
+Thermometer.displayName = "Thermometer";
 
 export default Thermometer;
