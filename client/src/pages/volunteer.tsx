@@ -172,16 +172,16 @@ const VolunteerPage = () => {
               
               <div className="md:col-span-2">
                 <Card className="shadow-md border-none">
-                  <CardHeader>
+                  <CardHeader className="px-8">
                     <CardTitle>Volunteer Registration Form</CardTitle>
                     <CardDescription>
                       In addition to the joy you will feel from the excitement of community and friendship, you will also receive a Walk4Friendship volunteer t-shirt!
                     </CardDescription>
                   </CardHeader>
-                  <CardContent>
+                  <CardContent className="px-8">
                     <Form {...form}>
-                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <FormField
                             control={form.control}
                             name="firstName"
@@ -189,7 +189,7 @@ const VolunteerPage = () => {
                               <FormItem>
                                 <FormLabel>First Name *</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="First name" {...field} />
+                                  <Input placeholder="First name" {...field} className="w-full" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -203,7 +203,7 @@ const VolunteerPage = () => {
                               <FormItem>
                                 <FormLabel>Last Name *</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Last name" {...field} />
+                                  <Input placeholder="Last name" {...field} className="w-full" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -211,7 +211,7 @@ const VolunteerPage = () => {
                           />
                         </div>
                         
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                           <FormField
                             control={form.control}
                             name="email"
@@ -219,7 +219,7 @@ const VolunteerPage = () => {
                               <FormItem>
                                 <FormLabel>Email *</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="your@email.com" type="email" {...field} />
+                                  <Input placeholder="your@email.com" type="email" {...field} className="w-full" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
@@ -233,7 +233,7 @@ const VolunteerPage = () => {
                               <FormItem>
                                 <FormLabel>Phone Number *</FormLabel>
                                 <FormControl>
-                                  <Input placeholder="Your phone number" {...field} />
+                                  <Input placeholder="Your phone number" {...field} className="w-full" />
                                 </FormControl>
                                 <FormMessage />
                               </FormItem>
