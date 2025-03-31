@@ -1,7 +1,10 @@
+import { useState, useEffect, useRef } from "react";
 import { Link } from "wouter";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { formatCurrency, calculateProgress } from "@/lib/utils";
+import { createConfetti } from "@/lib/confetti";
+import { Award } from "lucide-react";
 
 interface Team {
   id: number;
@@ -20,9 +23,29 @@ interface TeamCardProps {
 
 const TeamCard = ({ team, rank }: TeamCardProps) => {
   const progress = calculateProgress(team.raisedAmount, team.goalAmount);
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [hasShownConfetti, setHasShownConfetti] = useState(false);
+  
+  // Show confetti for teams with high progress when they first appear
+  useEffect(() => {
+    if (!hasShownConfetti && cardRef.current && progress >= 80) {
+      // Use a small timeout to ensure the element is fully rendered
+      const timer = setTimeout(() => {
+        // Get the position of the card
+        const rect = cardRef.current?.getBoundingClientRect();
+        if (rect) {
+          // Create confetti starting from the card's position
+          createConfetti(3000, 15);
+          setHasShownConfetti(true);
+        }
+      }, 500);
+      
+      return () => clearTimeout(timer);
+    }
+  }, [progress, hasShownConfetti]);
   
   return (
-    <Card className="team-card overflow-hidden border border-gray-100 shadow-md">
+    <Card ref={cardRef} className="team-card overflow-hidden border border-gray-100 shadow-md">
       <div className="relative">
         {team.teamImage ? (
           <img
@@ -33,6 +56,12 @@ const TeamCard = ({ team, rank }: TeamCardProps) => {
         ) : (
           <div className="w-full h-40 bg-primary/10 flex items-center justify-center">
             <span className="font-heading font-bold text-xl text-primary">{team.name.charAt(0)}</span>
+          </div>
+        )}
+        {progress >= 80 && (
+          <div className="absolute top-3 left-3 bg-amber-100 text-amber-700 font-medium rounded-full px-3 py-1 flex items-center gap-1 animate-pulse-once">
+            <Award size={14} className="fill-amber-500" />
+            <span>Star Team</span>
           </div>
         )}
         {rank && (

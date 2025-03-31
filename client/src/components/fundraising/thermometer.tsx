@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { calculateProgress } from "@/lib/utils";
 import { Star } from "lucide-react";
+import { createConfetti } from "@/lib/confetti";
 
 interface ThermometerProps {
   current: number;
@@ -22,22 +23,22 @@ const Thermometer = ({
   const progressRef = useRef<HTMLDivElement>(null);
   const milestoneContainerRef = useRef<HTMLDivElement>(null);
   const [completedMilestones, setCompletedMilestones] = useState<number[]>([]);
-  const [progressValue, setProgressValue] = useState(calculateProgress(current, goal));
+  const [progressValue, setProgressValue] = useState(0);
   const [isInitialized, setIsInitialized] = useState(false);
+  const prevProgressRef = useRef<number>(0);
   
   // Define milestones at 25%, 50%, 75%, and 100%
   const milestones = [25, 50, 75, 100];
   
-  // Only animate once on initial mount, not on every re-render
+  // Initialize on mount
   useEffect(() => {
     if (!isInitialized) {
-      setIsInitialized(true);
-      
-      const newProgress = calculateProgress(current, goal);
-      setProgressValue(newProgress);
+      const initialProgress = calculateProgress(current, goal);
+      setProgressValue(initialProgress);
+      prevProgressRef.current = initialProgress;
       
       // Determine which milestones have been completed
-      const completed = milestones.filter(milestone => newProgress >= milestone);
+      const completed = milestones.filter(milestone => initialProgress >= milestone);
       setCompletedMilestones(completed);
       
       // Apply animation only on initial load if animate is true
@@ -46,63 +47,46 @@ const Thermometer = ({
         
         const timeoutId = setTimeout(() => {
           if (progressRef.current) {
-            progressRef.current.style.width = `${newProgress}%`;
+            progressRef.current.style.width = `${initialProgress}%`;
           }
         }, delay);
         
         return () => clearTimeout(timeoutId);
+      } else if (progressRef.current) {
+        progressRef.current.style.width = `${initialProgress}%`;
       }
+      
+      setIsInitialized(true);
     }
-  }, [animate, delay, milestones, current, goal, isInitialized]);
+  }, []);
   
   // Update progress value when props change, but don't animate
   useEffect(() => {
     if (isInitialized) {
       const newProgress = calculateProgress(current, goal);
-      setProgressValue(newProgress);
       
       // Update completed milestones
       const completed = milestones.filter(milestone => newProgress >= milestone);
+      
+      // Check if we just reached 100%
+      const reached100 = !completedMilestones.includes(100) && completed.includes(100);
+      
+      setProgressValue(newProgress);
       setCompletedMilestones(completed);
       
       // Directly set the width without animation to prevent glitching
       if (progressRef.current) {
         progressRef.current.style.width = `${newProgress}%`;
       }
-    }
-  }, [current, goal, milestones, isInitialized]);
-  
-  // Generate a celebration confetti effect when a milestone is reached
-  useEffect(() => {
-    if (completedMilestones.length > 0 && milestoneContainerRef.current) {
-      const createConfetti = () => {
-        const confettiContainer = document.createElement('div');
-        confettiContainer.className = 'confetti-overlay';
-        document.body.appendChild(confettiContainer);
-        
-        // Create 50 confetti particles
-        for (let i = 0; i < 50; i++) {
-          const confetti = document.createElement('div');
-          confetti.className = 'confetti';
-          confetti.style.left = `${Math.random() * 100}%`;
-          confetti.style.width = `${Math.random() * 10 + 5}px`;
-          confetti.style.height = `${Math.random() * 10 + 5}px`;
-          confetti.style.background = `hsl(${280 + Math.random() * 60}, ${70 + Math.random() * 30}%, ${50 + Math.random() * 10}%)`;
-          confetti.style.animationDuration = `${Math.random() * 3 + 2}s`;
-          confettiContainer.appendChild(confetti);
-        }
-        
-        // Remove the confetti after animation completes
-        setTimeout(() => {
-          document.body.removeChild(confettiContainer);
-        }, 5000);
-      };
       
-      if (completedMilestones.includes(100)) {
-        createConfetti();
+      // Show confetti if we just reached 100%
+      if (reached100) {
+        createConfetti(5000, 20);
       }
+      
+      prevProgressRef.current = newProgress;
     }
-  }, [completedMilestones]);
+  }, [current, goal, isInitialized]);
   
   return (
     <div className="relative">
