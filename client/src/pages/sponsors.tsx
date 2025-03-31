@@ -1,9 +1,11 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
-import { ExternalLink, Mail, Download } from "lucide-react";
+import { ArrowRightIcon, CheckCircle2, AlertTriangle } from "lucide-react";
 
 interface Sponsor {
   id: number;
@@ -11,240 +13,280 @@ interface Sponsor {
   tier: string;
   logo: string;
   websiteUrl: string;
-  description: string;
+  description?: string;
 }
 
-const Sponsors = () => {
+const SponsorsPage = () => {
   const { data, isLoading } = useQuery<{ sponsors: Sponsor[] }>({
     queryKey: ['/api/sponsors'],
   });
   
-  // Group sponsors by tier
-  const groupedSponsors = {
-    gold: data?.sponsors.filter(sponsor => sponsor.tier === "gold") || [],
-    silver: data?.sponsors.filter(sponsor => sponsor.tier === "silver") || [],
-    bronze: data?.sponsors.filter(sponsor => sponsor.tier === "bronze") || []
+  const [selectedTier, setSelectedTier] = useState<string | null>(null);
+  
+  const handleSelectTier = (tier: string) => {
+    setSelectedTier(tier === selectedTier ? null : tier);
   };
   
   return (
     <div className="min-h-screen bg-gray-50 py-16">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h1 className="font-heading font-bold text-3xl md:text-4xl text-gray-900 mb-4">
+          <h1 className="font-heading text-4xl md:text-5xl font-bold mb-6 text-gray-900">
             Our Sponsors
           </h1>
-          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-            Thank you to these amazing organizations for supporting the Walk for Friendship and Friendship Circle's mission.
+          <p className="text-lg text-gray-600 max-w-3xl mx-auto">
+            Thank you to these amazing organizations for supporting Walk4Friendship. 
+            Their generous contributions help make our program possible.
           </p>
         </div>
         
-        <Tabs defaultValue="all" className="w-full mb-12">
-          <TabsList className="w-full max-w-md mx-auto grid grid-cols-4">
-            <TabsTrigger value="all">All</TabsTrigger>
-            <TabsTrigger value="gold" className="text-amber-600">Gold</TabsTrigger>
-            <TabsTrigger value="silver" className="text-gray-500">Silver</TabsTrigger>
-            <TabsTrigger value="bronze" className="text-amber-800">Bronze</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="all" className="mt-8">
-            <SponsorsList 
-              sponsors={data?.sponsors || []} 
-              isLoading={isLoading}
-              title="All Sponsors"
-            />
-          </TabsContent>
-          
-          <TabsContent value="gold" className="mt-8">
-            <SponsorsList 
-              sponsors={groupedSponsors.gold} 
-              isLoading={isLoading}
-              title="Gold Sponsors"
-              emptyMessage="No gold sponsors yet."
-            />
-          </TabsContent>
-          
-          <TabsContent value="silver" className="mt-8">
-            <SponsorsList 
-              sponsors={groupedSponsors.silver} 
-              isLoading={isLoading}
-              title="Silver Sponsors"
-              emptyMessage="No silver sponsors yet."
-            />
-          </TabsContent>
-          
-          <TabsContent value="bronze" className="mt-8">
-            <SponsorsList 
-              sponsors={groupedSponsors.bronze} 
-              isLoading={isLoading}
-              title="Bronze Sponsors"
-              emptyMessage="No bronze sponsors yet."
-            />
-          </TabsContent>
-        </Tabs>
+        {/* Featured Sponsors Banner */}
+        <div className="bg-white rounded-xl shadow-md py-8 px-6 mb-16">
+          <h2 className="text-2xl font-bold text-center mb-8">Featured Sponsors</h2>
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-y-8 items-center">
+            <img src="@assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
+            <img src="@assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-12 object-contain mx-auto" />
+            <img src="@assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-12 object-contain mx-auto" />
+            <img src="@assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-14 object-contain mx-auto" />
+            <img src="@assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-14 object-contain mx-auto" />
+            <img src="@assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-14 object-contain mx-auto" />
+            <img src="@assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-12 object-contain mx-auto" />
+          </div>
+        </div>
         
-        <div className="max-w-4xl mx-auto mt-16">
-          <Card className="bg-white rounded-xl shadow-md overflow-hidden border-none">
-            <CardContent className="p-6 md:p-8">
-              <h2 className="font-heading font-bold text-2xl mb-4 text-gray-900">Become a Sponsor</h2>
-              <p className="text-gray-600 mb-6">
-                Support our mission while gaining visibility for your organization. By becoming a sponsor, you'll help Friendship Circle provide programs and support to individuals with special needs and their families.
+        {/* All Sponsors */}
+        <div className="mb-16">
+          <h2 className="text-2xl font-bold mb-8">All Sponsors</h2>
+          
+          {isLoading ? (
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 items-stretch">
+              {[...Array(8)].map((_, i) => (
+                <div key={i} className="p-6 bg-white rounded-lg shadow-sm flex flex-col">
+                  <Skeleton className="h-20 w-3/4 rounded mb-4 mx-auto" />
+                  <Skeleton className="h-4 w-full rounded mb-2" />
+                  <Skeleton className="h-4 w-2/3 rounded mb-4" />
+                  <Skeleton className="h-8 w-1/3 rounded mt-auto mx-auto" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 items-stretch">
+              {data?.sponsors.map((sponsor) => (
+                <Card key={sponsor.id} className="overflow-hidden border-none shadow-md hover:shadow-lg transition duration-300">
+                  <CardContent className="p-6 flex flex-col h-full">
+                    <div className="mb-4 h-24 flex items-center justify-center">
+                      {sponsor.logo ? (
+                        <img
+                          src={sponsor.logo}
+                          alt={sponsor.name}
+                          className="max-h-20 max-w-full"
+                        />
+                      ) : (
+                        <div className="text-2xl font-bold text-primary text-center">
+                          {sponsor.name}
+                        </div>
+                      )}
+                    </div>
+                    
+                    <div className="mb-2">
+                      <span className={`text-xs font-semibold px-2 py-1 rounded ${
+                        sponsor.tier === 'gold' ? 'bg-amber-100 text-amber-800' :
+                        sponsor.tier === 'silver' ? 'bg-gray-100 text-gray-600' :
+                        sponsor.tier === 'bronze' ? 'bg-orange-100 text-orange-800' :
+                        'bg-blue-100 text-blue-800'
+                      }`}>
+                        {sponsor.tier.charAt(0).toUpperCase() + sponsor.tier.slice(1)} Sponsor
+                      </span>
+                    </div>
+                    
+                    <h3 className="text-xl font-bold mb-2 text-gray-900">{sponsor.name}</h3>
+                    
+                    {sponsor.description && (
+                      <p className="text-gray-600 text-sm mb-4">{sponsor.description}</p>
+                    )}
+                    
+                    <div className="mt-auto">
+                      <a 
+                        href={sponsor.websiteUrl} 
+                        target="_blank" 
+                        rel="noopener noreferrer"
+                        className="text-primary font-medium text-sm hover:underline flex items-center"
+                      >
+                        Visit Website <ArrowRightIcon className="h-4 w-4 ml-1" />
+                      </a>
+                    </div>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+          )}
+        </div>
+        
+        {/* Become a Sponsor Section */}
+        <div className="bg-white rounded-xl shadow-md overflow-hidden border-none">
+          <div className="bg-primary/10 py-8 px-6 text-center">
+            <h2 className="text-3xl font-bold mb-4 text-gray-900">Become a Sponsor</h2>
+            <p className="text-lg text-gray-600 max-w-3xl mx-auto mb-4">
+              Support our mission while gaining visibility for your organization. 
+              Your sponsorship makes a difference in the lives of people with special needs.
+            </p>
+          </div>
+          
+          <div className="p-6 md:p-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10">
+              <Card className={cn(
+                "relative overflow-visible border-2 transition-all duration-300",
+                selectedTier === "gold" 
+                  ? "border-primary shadow-lg transform -translate-y-2" 
+                  : "border-primary/30 hover:border-primary/60"
+              )}
+              onClick={() => handleSelectTier("gold")}
+              >
+                <div className="absolute top-0 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                  <span className="bg-amber-200 text-amber-900 py-1 px-3 rounded-full text-sm font-bold">Premium</span>
+                </div>
+                <CardContent className="p-6 cursor-pointer">
+                  <div className="text-center mb-4">
+                    <h3 className="text-2xl font-bold text-primary">Gold Sponsor</h3>
+                    <p className="text-3xl font-bold my-4">$5,000</p>
+                  </div>
+                  
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Premium logo placement on all event materials</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Featured recognition on social media platforms</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>VIP access to all event activities</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Logo on Walk4Friendship t-shirts</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Premium booth placement at the event</span>
+                    </li>
+                  </ul>
+                  
+                  <Link href="/sponsor-checkout?tier=gold" className="block text-center">
+                    <Button className="w-full bg-primary hover:bg-primary/90">
+                      Select Gold Package
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              
+              <Card className={cn(
+                "relative overflow-visible border-2 transition-all duration-300",
+                selectedTier === "silver" 
+                  ? "border-secondary shadow-lg transform -translate-y-2" 
+                  : "border-secondary/30 hover:border-secondary/60"
+              )}
+              onClick={() => handleSelectTier("silver")}
+              >
+                <CardContent className="p-6 cursor-pointer">
+                  <div className="text-center mb-4">
+                    <h3 className="text-2xl font-bold text-secondary">Silver Sponsor</h3>
+                    <p className="text-3xl font-bold my-4">$2,500</p>
+                  </div>
+                  
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Logo on event website and printed materials</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Social media acknowledgment</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Event booth</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Name recognition during event</span>
+                    </li>
+                    <li className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-gray-300 mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-400">Premium booth placement</span>
+                    </li>
+                  </ul>
+                  
+                  <Link href="/sponsor-checkout?tier=silver" className="block text-center">
+                    <Button className="w-full bg-secondary hover:bg-secondary/90">
+                      Select Silver Package
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+              
+              <Card className={cn(
+                "relative overflow-visible border-2 transition-all duration-300",
+                selectedTier === "bronze" 
+                  ? "border-accent shadow-lg transform -translate-y-2" 
+                  : "border-accent/30 hover:border-accent/60"
+              )}
+              onClick={() => handleSelectTier("bronze")}
+              >
+                <CardContent className="p-6 cursor-pointer">
+                  <div className="text-center mb-4">
+                    <h3 className="text-2xl font-bold text-accent">Bronze Sponsor</h3>
+                    <p className="text-3xl font-bold my-4">$1,000</p>
+                  </div>
+                  
+                  <ul className="space-y-3 mb-6">
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Name listing on event website</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Name listing in event program</span>
+                    </li>
+                    <li className="flex items-start">
+                      <CheckCircle2 className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                      <span>Event acknowledgment</span>
+                    </li>
+                    <li className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-gray-300 mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-400">Social media promotion</span>
+                    </li>
+                    <li className="flex items-start">
+                      <AlertTriangle className="h-5 w-5 text-gray-300 mr-2 mt-0.5 flex-shrink-0" />
+                      <span className="text-gray-400">Event booth</span>
+                    </li>
+                  </ul>
+                  
+                  <Link href="/sponsor-checkout?tier=bronze" className="block text-center">
+                    <Button className="w-full bg-accent hover:bg-accent/90">
+                      Select Bronze Package
+                    </Button>
+                  </Link>
+                </CardContent>
+              </Card>
+            </div>
+            
+            <div className="text-center max-w-3xl mx-auto">
+              <p className="mb-6 text-gray-600">
+                For custom sponsorship packages or more information about sponsorship opportunities, 
+                please download our complete sponsorship packet or contact our team directly.
               </p>
               
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
-                <SponsorTierCard
-                  tier="Gold"
-                  amount="$5,000"
-                  benefits={[
-                    "Premium logo placement on all event materials",
-                    "Social media recognition (5+ posts)",
-                    "VIP event access for 10 people",
-                    "Speaking opportunity at the event",
-                    "Company banner displayed at event"
-                  ]}
-                  colorClass="border-amber-500 hover:bg-amber-50"
-                  textClass="text-amber-600"
-                />
-                
-                <SponsorTierCard
-                  tier="Silver"
-                  amount="$2,500"
-                  benefits={[
-                    "Logo on website and printed materials",
-                    "Social media recognition (3 posts)",
-                    "Event booth opportunity",
-                    "Event access for 5 people",
-                    "Recognition during event program"
-                  ]}
-                  colorClass="border-gray-400 hover:bg-gray-50"
-                  textClass="text-gray-500"
-                />
-                
-                <SponsorTierCard
-                  tier="Bronze"
-                  amount="$1,000"
-                  benefits={[
-                    "Name listing on website",
-                    "Name on printed event materials",
-                    "Social media mention (1 post)",
-                    "Event access for 2 people",
-                    "Certificate of appreciation"
-                  ]}
-                  colorClass="border-amber-700 hover:bg-amber-50/70"
-                  textClass="text-amber-800"
-                />
-              </div>
-              
-              <div className="text-center">
-                <Button className="bg-primary text-white rounded-full hover:bg-primary/90 inline-flex items-center">
-                  <Download className="mr-2 h-4 w-4" />
+              <div className="flex flex-col sm:flex-row justify-center gap-4">
+                <Button className="bg-primary text-white rounded-full hover:bg-primary/90">
                   Download Sponsor Packet
                 </Button>
-                <Button variant="outline" className="ml-4 border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-full inline-flex items-center">
-                  <Mail className="mr-2 h-4 w-4" />
-                  Contact Us About Sponsorship
+                <Button variant="outline" className="border-2 border-primary text-primary hover:bg-primary hover:text-white rounded-full">
+                  Contact Our Team
                 </Button>
               </div>
-            </CardContent>
-          </Card>
-        </div>
-      </div>
-      
-      {/* Friendship Circles Around the World Gallery */}
-      <div className="max-w-7xl mx-auto mt-16 mb-12">
-        <div className="text-center mb-8">
-          <h2 className="font-heading font-bold text-3xl text-gray-900 mb-4">
-            Friendship Circles Around the World
-          </h2>
-          <p className="text-gray-600 text-lg max-w-3xl mx-auto">
-            Discover the global impact of Friendship Circle communities bringing people together across the world.
-          </p>
-        </div>
-        
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 pb-8">
-          <div className="overflow-hidden rounded-lg bg-white shadow group">
-            <div className="aspect-square relative">
-              <img 
-                src="/images/friendship-circles/michigan.jpg" 
-                alt="Friendship Circle Michigan" 
-                className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-4 text-center">
-              <h3 className="font-heading font-semibold text-lg text-gray-900">Michigan, United States</h3>
-              <p className="text-gray-600 text-sm">Building friendships that last a lifetime</p>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-lg bg-white shadow group">
-            <div className="aspect-square relative">
-              <img 
-                src="/images/friendship-circles/florida.webp" 
-                alt="Friendship Circle Florida" 
-                className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-4 text-center">
-              <h3 className="font-heading font-semibold text-lg text-gray-900">Florida, United States</h3>
-              <p className="text-gray-600 text-sm">Celebrating community and inclusion</p>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-lg bg-white shadow group">
-            <div className="aspect-square relative">
-              <img 
-                src="/images/friendship-circles/montreal.jpg" 
-                alt="Friendship Circle Montreal" 
-                className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-4 text-center">
-              <h3 className="font-heading font-semibold text-lg text-gray-900">Montreal, Canada</h3>
-              <p className="text-gray-600 text-sm">Creating connections and support networks</p>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-lg bg-white shadow group">
-            <div className="aspect-square relative">
-              <img 
-                src="/images/friendship-circles/miami.webp" 
-                alt="Friendship Circle Miami" 
-                className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-4 text-center">
-              <h3 className="font-heading font-semibold text-lg text-gray-900">Miami, United States</h3>
-              <p className="text-gray-600 text-sm">Walking together for friendship and community</p>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-lg bg-white shadow group">
-            <div className="aspect-square relative">
-              <img 
-                src="/images/friendship-circles/cleveland.jpg" 
-                alt="Friendship Circle Cleveland" 
-                className="object-cover w-full h-full transform transition-transform duration-300 group-hover:scale-105"
-              />
-            </div>
-            <div className="p-4 text-center">
-              <h3 className="font-heading font-semibold text-lg text-gray-900">Cleveland, United States</h3>
-              <p className="text-gray-600 text-sm">Building a community of believers and supporters</p>
-            </div>
-          </div>
-          
-          <div className="overflow-hidden rounded-lg bg-white shadow group flex flex-col items-center justify-center">
-            <div className="p-8 text-center">
-              <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-purple-100 mb-4">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M8 12h8" />
-                  <path d="M12 8v8" />
-                </svg>
-              </div>
-              <h3 className="font-heading font-semibold text-lg text-gray-900 mb-2">Join the Movement</h3>
-              <p className="text-gray-600 mb-4">Bring Friendship Circle to your community</p>
-              <a href="#" className="inline-flex items-center justify-center px-5 py-2 border border-transparent text-base font-medium rounded-full text-white bg-primary hover:bg-primary/90">
-                Learn More
-              </a>
             </div>
           </div>
         </div>
@@ -253,106 +295,4 @@ const Sponsors = () => {
   );
 };
 
-interface SponsorsListProps {
-  sponsors: Sponsor[];
-  isLoading: boolean;
-  title: string;
-  emptyMessage?: string;
-}
-
-const SponsorsList = ({ sponsors, isLoading, title, emptyMessage = "No sponsors found." }: SponsorsListProps) => {
-  if (isLoading) {
-    return (
-      <div>
-        <h2 className="font-heading font-bold text-2xl mb-6 text-gray-900">{title}</h2>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center">
-          {[...Array(8)].map((_, i) => (
-            <div key={i} className="p-4 bg-white rounded-lg shadow-sm h-24 flex items-center justify-center">
-              <Skeleton className="h-16 w-full rounded" />
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-  
-  if (sponsors.length === 0) {
-    return (
-      <div>
-        <h2 className="font-heading font-bold text-2xl mb-6 text-gray-900">{title}</h2>
-        <Card className="bg-gray-50 border-dashed">
-          <CardContent className="p-8 text-center">
-            <p className="text-gray-600">{emptyMessage}</p>
-          </CardContent>
-        </Card>
-      </div>
-    );
-  }
-  
-  return (
-    <div>
-      <h2 className="font-heading font-bold text-2xl mb-6 text-gray-900">{title}</h2>
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 items-center">
-        {sponsors.map((sponsor) => (
-          <a
-            key={sponsor.id}
-            href={sponsor.websiteUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group p-6 bg-white rounded-lg shadow-sm hover:shadow-md transition flex flex-col items-center justify-center h-32 border border-gray-100"
-          >
-            {sponsor.logo ? (
-              <img
-                src={sponsor.logo}
-                alt={sponsor.name}
-                className="max-h-16 max-w-full mb-2"
-              />
-            ) : (
-              <div className="font-heading font-bold text-xl text-center text-gray-800 mb-2">
-                {sponsor.name}
-              </div>
-            )}
-            <div className="flex items-center text-xs text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity">
-              <span>Visit website</span>
-              <ExternalLink className="ml-1 h-3 w-3" />
-            </div>
-            <div className={`absolute top-2 right-2 text-xs uppercase font-bold ${
-              sponsor.tier === 'gold' ? 'text-amber-600' : 
-              sponsor.tier === 'silver' ? 'text-gray-500' : 
-              'text-amber-800'
-            }`}>
-              {sponsor.tier}
-            </div>
-          </a>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-interface SponsorTierCardProps {
-  tier: string;
-  amount: string;
-  benefits: string[];
-  colorClass: string;
-  textClass: string;
-}
-
-const SponsorTierCard = ({ tier, amount, benefits, colorClass, textClass }: SponsorTierCardProps) => {
-  return (
-    <div className={`border rounded-lg p-5 transition cursor-pointer ${colorClass}`}>
-      <h3 className={`font-heading font-bold text-xl mb-2 ${textClass}`}>{tier} Sponsor</h3>
-      <p className="font-bold text-gray-900 mb-3">{amount}</p>
-      <ul className="text-sm text-gray-600 space-y-1 mb-2">
-        {benefits.map((benefit, index) => (
-          <li key={index} className="flex items-start">
-            <span className={`mr-2 text-lg leading-none ${textClass}`}>•</span>
-            <span>{benefit}</span>
-          </li>
-        ))}
-      </ul>
-    </div>
-  );
-};
-
-export default Sponsors;
+export default SponsorsPage;
