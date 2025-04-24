@@ -45,11 +45,11 @@ const SponsorshipSection = () => {
             <img src="/attached_assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-12 object-contain" />
             
             {/* New sponsors */}
-            <img src="@assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-11 object-contain" />
-            <img src="@assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-10 object-contain" />
-            <img src="@assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-11 object-contain" />
-            <img src="@assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-10 object-contain" />
-            <img src="@assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-10 object-contain" />
+            <img src="/attached_assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-11 object-contain" />
+            <img src="/attached_assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-10 object-contain" />
+            <img src="/attached_assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-11 object-contain" />
+            <img src="/attached_assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-10 object-contain" />
+            <img src="/attached_assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-10 object-contain" />
           </div>
         </div>
         

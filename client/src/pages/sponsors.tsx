@@ -45,19 +45,19 @@ const SponsorsPage = () => {
           <h2 className="text-2xl font-bold text-center mb-8">Featured Sponsors</h2>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-10 gap-x-8 items-center">
             <div className="flex items-center justify-center">
-              <img src="@assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-16 object-contain mx-auto" />
+              <img src="/attached_assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-16 object-contain mx-auto" />
             </div>
             <div className="flex items-center justify-center">
-              <img src="@assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-14 object-contain mx-auto" />
+              <img src="/attached_assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-14 object-contain mx-auto" />
             </div>
             <div className="flex items-center justify-center">
-              <img src="@assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-16 object-contain mx-auto" />
+              <img src="/attached_assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-16 object-contain mx-auto" />
             </div>
             <div className="flex items-center justify-center">
-              <img src="@assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-14 object-contain mx-auto" />
+              <img src="/attached_assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-14 object-contain mx-auto" />
             </div>
             <div className="flex items-center justify-center">
-              <img src="@assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-14 object-contain mx-auto" />
+              <img src="/attached_assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-14 object-contain mx-auto" />
             </div>
             <div className="flex items-center justify-center">
               <img src="/attached_assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
