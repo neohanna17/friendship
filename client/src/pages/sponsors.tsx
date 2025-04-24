@@ -43,14 +43,43 @@ const SponsorsPage = () => {
         {/* Featured Sponsors Banner */}
         <div className="bg-white rounded-xl shadow-md py-8 px-6 mb-16">
           <h2 className="text-2xl font-bold text-center mb-8">Featured Sponsors</h2>
-          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-7 gap-y-8 items-center">
-            <img src="/attached_assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
-            <img src="/attached_assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-12 object-contain mx-auto" />
-            <img src="/attached_assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-12 object-contain mx-auto" />
-            <img src="/attached_assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-14 object-contain mx-auto" />
-            <img src="/attached_assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-14 object-contain mx-auto" />
-            <img src="/attached_assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-14 object-contain mx-auto" />
-            <img src="/attached_assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-12 object-contain mx-auto" />
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-y-10 gap-x-8 items-center">
+            <div className="flex items-center justify-center">
+              <img src="@assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-16 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="@assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="@assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-16 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="@assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="@assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-12 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-13 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-14 object-contain mx-auto" />
+            </div>
+            <div className="flex items-center justify-center">
+              <img src="/attached_assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-14 object-contain mx-auto" />
+            </div>
           </div>
         </div>
         

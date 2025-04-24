@@ -36,14 +36,20 @@ const SponsorshipSection = () => {
         
         {/* Top sponsors bar - always visible */}
         <div className="bg-white py-6 rounded-lg shadow-sm mb-8 overflow-hidden">
-          <div className="flex justify-around items-center flex-wrap gap-4 px-4">
+          <div className="flex justify-around items-center flex-wrap gap-6 px-4">
+            {/* Existing sponsors */}
             <img src="/attached_assets/02f6b9f1-1444-41e3-bd53-4b2e8b18c04b.png" alt="Encore Real Estate" className="h-12 object-contain" />
             <img src="/attached_assets/4a1a4b07-24f2-40f9-b824-fe28b2119202.jpg" alt="Pappas Financial" className="h-10 object-contain" />
             <img src="/attached_assets/4e1494d8-75aa-4cb1-b374-d2bcdcd95770.png" alt="Kroger" className="h-10 object-contain" />
             <img src="/attached_assets/4e4161a1-ae27-4c72-9e03-8fab5895d7f4.jpg" alt="Busch's Fresh Food Market" className="h-12 object-contain" />
             <img src="/attached_assets/5dbdcefc-29e8-417f-9b0a-8c64f11348a8.png" alt="Mind Health Group" className="h-12 object-contain" />
-            <img src="/attached_assets/6ae78a6e-f5ec-4a9b-9912-8a2af31d107e.png" alt="Mind" className="h-12 object-contain" />
-            <img src="/attached_assets/6e85ebf1-e6c6-4a55-a662-c9490a0f8df6.jpg" alt="Glassman Automotive Group" className="h-10 object-contain" />
+            
+            {/* New sponsors */}
+            <img src="@assets/8d89f0be-7c9d-403d-8505-52a146defd2f.png" alt="Amistee Air Duct Cleaning & Insulation" className="h-11 object-contain" />
+            <img src="@assets/9c1ff09e-a0c7-43b1-a210-1b0d357adc8e.png" alt="Sponsor Logo" className="h-10 object-contain" />
+            <img src="@assets/9d5effa4-c686-4544-9915-2a76dbcca0b9.jpg" alt="River's Bend PC & Feinberg Consulting" className="h-11 object-contain" />
+            <img src="@assets/9e9f0235-7a69-4c65-b680-b5d108207dc0.png" alt="Maserati of Troy" className="h-10 object-contain" />
+            <img src="@assets/9f65d18f-0e31-4331-ab42-2f47a8ec6a54.jpg" alt="Absopure" className="h-10 object-contain" />
           </div>
         </div>
         
